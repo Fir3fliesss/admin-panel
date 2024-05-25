@@ -50,7 +50,7 @@ const DropdownUser = () => {
             <span className="block text-xs">Manager</span>
           </div>
 
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-1">
             <div className="flex items-center p-2.5 bg-slate-100 dark:bg-slate-800 rounded-full">
               <UserIcon size={24} />
             </div>
@@ -65,11 +65,11 @@ const DropdownUser = () => {
           ref={dropdown}
           onFocus={() => setDropdownUserOpen(true)}
           onBlur={() => setDropdownUserOpen(false)}
-          className={`absolute right-0 mt-4 flex w-62.5 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark ${
+          className={`absolute right-0 mt-4 flex w-62.5 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-stroke-dark dark:bg-box-dark ${
             dropdownUserOpen ? "block" : "hidden"
           }`}
         >
-          <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7.5 dark:border-strokedark">
+          <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7.5 dark:border-stroke-dark">
             <li>
               <Link
                 to="/profile"

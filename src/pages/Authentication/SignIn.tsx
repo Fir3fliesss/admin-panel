@@ -7,7 +7,7 @@ const SignIn = () => {
   return (
     <>
       <div className="flex justify-center items-center h-screen md:px-24 p-4">
-        <div className="rounded-sm border border-stroke bg-white md:px-24 w-full p-4 shadow-default dark:border-strokedark dark:bg-boxdark">
+        <div className="rounded-sm border border-stroke bg-white md:px-24 w-full p-4 shadow-default dark:border-stroke-dark dark:bg-box-dark">
           <div className="flex flex-wrap items-center">
             <div className="hidden w-full xl:block xl:w-1/2">
               <div className="py-17.5 px-26 text-center">
@@ -24,7 +24,7 @@ const SignIn = () => {
               </div>
             </div>
 
-            <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
+            <div className="w-full border-stroke dark:border-stroke-dark xl:w-1/2 xl:border-l-2">
               <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
                 <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
                   Sign In
@@ -39,7 +39,7 @@ const SignIn = () => {
                       <input
                         type="email"
                         placeholder="Enter your email"
-                        className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                        className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-stroke-dark dark:bg-form-input dark:text-white dark:focus:border-primary"
                       />
                       <MailIcon className="absolute right-4 top-4 text-slate-500" />
                     </div>
@@ -53,7 +53,7 @@ const SignIn = () => {
                       <input
                         type="password"
                         placeholder="6+ Characters, 1 Capital letter"
-                        className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                        className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-stroke-dark dark:bg-form-input dark:text-white dark:focus:border-primary"
                       />
                       <LockIcon className="absolute right-4 top-4 text-slate-500"/>
                     </div>
@@ -68,7 +68,7 @@ const SignIn = () => {
                   </div>
 
                   <button
-                    className="flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50">
+                    className="flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-stroke-dark dark:bg-meta-4 dark:hover:bg-opacity-50">
                   <span>
                     <svg
                       width="20"
