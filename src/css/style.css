@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply font-normal text-base text-body bg-slate-100 relative z-1;
+    @apply font-normal text-base bg-slate-100 relative z-1;
   }
 }
 

@@ -3,6 +3,8 @@ import DropdownUser from "./DropdownUser";
 import LogoIcon from "../../../public/images/it-forelead.png";
 import DarkModeSwitcher from "./DarkModeSwitcher";
 import { SearchIcon } from "lucide-react";
+import DropdownNotification from "@/components/Header/DropdownNotification.tsx";
+import DropdownMessage from "@/components/Header/DropdownMessage.tsx";
 
 const Header = (props: {
   sidebarOpen: string | boolean | undefined;
@@ -19,7 +21,7 @@ const Header = (props: {
               e.stopPropagation();
               props.setSidebarOpen(!props.sidebarOpen);
             }}
-            className="z-99999 block rounded-sm border border-stroke bg-white p-1.5 shadow-sm dark:border-stroke-dark dark:bg-box-dark lg:hidden"
+            className="z-99999 block rounded-sm border border-stroke bg-white p-1.5 shadow-sm dark:border-slate-700 dark:bg-slate-800 lg:hidden"
           >
             <span className="relative block h-5.5 w-5.5 cursor-pointer">
               <span className="du-block absolute right-0 h-full w-full">
@@ -80,11 +82,11 @@ const Header = (props: {
             {/* <!-- Dark Mode Toggler --> */}
 
             {/* <!-- Notification Menu Area --> */}
-            {/*<DropdownNotification />*/}
+            <DropdownNotification />
             {/* <!-- Notification Menu Area --> */}
 
             {/* <!-- Chat Notification Area --> */}
-            {/*<DropdownMessage />*/}
+            <DropdownMessage />
             {/* <!-- Chat Notification Area --> */}
           </ul>
 

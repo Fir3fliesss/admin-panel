@@ -42,15 +42,15 @@ const DropdownMessage = () => {
           setNotifying(false);
           setDropdownOpen(!dropdownOpen);
         }}
-        className="relative flex h-8.5 w-8.5 items-center justify-center rounded-full border-[0.5px] border-stroke bg-gray hover:text-primary dark:border-stroke-dark dark:bg-meta-4 dark:text-white"
+        className="relative flex h-8.5 w-8.5 items-center justify-center rounded-full border-[0.5px] border-stroke bg-gray hover:text-primary dark:border-slate-700 dark:bg-slate-700 dark:text-white"
         to="#"
       >
         <span
-          className={`absolute -top-0.5 -right-0.5 z-1 h-2 w-2 rounded-full bg-meta-1 ${
+          className={`absolute -top-0.5 -right-0.5 z-1 h-2 w-2 rounded-full bg-rose-600 ${
             !notifying ? 'hidden' : 'inline'
           }`}
         >
-          <span className="absolute -z-1 inline-flex h-full w-full animate-ping rounded-full bg-meta-1 opacity-75"></span>
+          <span className="absolute -z-1 inline-flex h-full w-full animate-ping rounded-full bg-rose-600 opacity-75"></span>
         </span>
 
         <svg
@@ -85,7 +85,7 @@ const DropdownMessage = () => {
         ref={dropdown}
         onFocus={() => setDropdownOpen(true)}
         onBlur={() => setDropdownOpen(false)}
-        className={`absolute -right-16 mt-2.5 flex h-90 w-75 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-stroke-dark dark:bg-box-dark sm:right-0 sm:w-80 ${
+        className={`absolute -right-16 mt-2.5 flex h-90 w-75 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-slate-700 dark:bg-slate-800 sm:right-0 sm:w-80 ${
           dropdownOpen ? 'block' : 'hidden'
         }`}
       >
@@ -96,7 +96,7 @@ const DropdownMessage = () => {
         <ul className="flex h-auto flex-col overflow-y-auto">
           <li>
             <Link
-              className="flex gap-4.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-stroke-dark dark:hover:bg-meta-4"
+              className="flex gap-4.5 border-t border-stroke px-4.5 py-3 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-700"
               to="/messages"
             >
               <div className="h-12.5 w-12.5 rounded-full">
@@ -114,7 +114,7 @@ const DropdownMessage = () => {
           </li>
           <li>
             <Link
-              className="flex gap-4.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-stroke-dark dark:hover:bg-meta-4"
+              className="flex gap-4.5 border-t border-stroke px-4.5 py-3 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-700"
               to="/messages"
             >
               <div className="h-12.5 w-12.5 rounded-full">
@@ -132,7 +132,7 @@ const DropdownMessage = () => {
           </li>
           <li>
             <Link
-              className="flex gap-4.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-stroke-dark dark:hover:bg-meta-4"
+              className="flex gap-4.5 border-t border-stroke px-4.5 py-3 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-700"
               to="/messages"
             >
               <div className="h-12.5 w-12.5 rounded-full">
@@ -150,7 +150,7 @@ const DropdownMessage = () => {
           </li>
           <li>
             <Link
-              className="flex gap-4.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-stroke-dark dark:hover:bg-meta-4"
+              className="flex gap-4.5 border-t border-stroke px-4.5 py-3 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-700"
               to="/messages"
             >
               <div className="h-12.5 w-12.5 rounded-full">
@@ -168,7 +168,7 @@ const DropdownMessage = () => {
           </li>
           <li>
             <Link
-              className="flex gap-4.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-stroke-dark dark:hover:bg-meta-4"
+              className="flex gap-4.5 border-t border-stroke px-4.5 py-3 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-700"
               to="/messages"
             >
               <div className="h-12.5 w-12.5 rounded-full">
