@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { RouterProvider } from "react-router-dom";
 import Loader from "./common/Loader";
 import { router } from "./routes/Routes.tsx";
+import "@mantine/core/styles.css";
+
+import { MantineProvider } from "@mantine/core";
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -14,7 +17,9 @@ function App() {
     <Loader />
   ) : (
     <>
-      <RouterProvider router={router} />
+      <MantineProvider>
+        <RouterProvider router={router} />
+      </MantineProvider>
     </>
   );
 }
