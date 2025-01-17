@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import DropdownUser from "./DropdownUser";
 import DarkModeSwitcher from "./DarkModeSwitcher";
+import { Menu } from "lucide-react";
 
 const Header = (props: {
   sidebarOpen: string | boolean | undefined;
@@ -10,7 +11,7 @@ const Header = (props: {
     <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-slate-800 dark:drop-shadow-none">
       <div className="flex w-full items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">
         {/* Kiri: Logo dan Hamburger */}
-        <div className="flex items-center gap-2 sm:gap-4 lg:hidden">
+        <div className="flex justify-center items-center gap-2 sm:gap-4 lg:hidden">
           <button
             aria-controls="sidebar"
             onClick={(e) => {
@@ -19,10 +20,10 @@ const Header = (props: {
             }}
             className="z-99999 block rounded-sm border border-stroke bg-white p-1.5 shadow-sm dark:border-slate-700 dark:bg-slate-800 lg:hidden"
           >
-            {/* Hamburger Icon */}
+            <Menu />
           </button>
           <Link className="block flex-shrink-0 lg:hidden" to="/">
-            <img src="/images/favicon.webp" className="h-7 w-11" alt="Logo" />
+            <img src="/images/favicon.webp" className="w-12" alt="Logo" />
           </Link>
         </div>
 

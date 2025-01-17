@@ -35,14 +35,16 @@ function useLocalStorage<T>(
 export const useAuthToken = () => {
   const [token, setToken] = useLocalStorage<string | null>("authToken", null);
 
-  const saveToken = (newToken: string) => {
-    setToken(newToken);
-    window.localStorage.setItem("authToken", newToken);
+  const saveToken = (data: any) => {
+    setToken(data.token);
+    window.localStorage.setItem("authToken", data.token);
+    window.localStorage.setItem("authName", data.name);
   };
 
   const removeToken = () => {
     setToken(null);
     window.localStorage.removeItem("authToken");
+    window.localStorage.removeItem("authName");
   };
 
   return { token, saveToken, removeToken };

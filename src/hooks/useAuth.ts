@@ -8,14 +8,19 @@ export const useAuth = () => {
   const loginMutation = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
-      saveToken(data.data.token); // Simpan token setelah login berhasil
-      console.log("Login success:", data.data);
+      const token = data?.data; // Pastikan token ada
+      if (token) {
+        saveToken(token); // Simpan token
+        console.log("Login success:", token);
+      } else {
+        console.error("No token received");
+      }
     },
     onError: (error) => {
       console.error("Login failed:", error);
-      // Anda bisa menambahkan penanganan error khusus di sini
     },
   });
+  
 
   const registerMutation = useMutation({
     mutationFn: register,
