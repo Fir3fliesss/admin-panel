@@ -1,4 +1,5 @@
 const BASE_URL = "https://api.smkpluspnb.sch.id/api/v1/berita";
+import { fetchWithAuth } from './utils';
 
 export const getBerita = async () => {
   const response = await fetch(`${BASE_URL}/show`, {
@@ -9,7 +10,7 @@ export const getBerita = async () => {
 };
 
 export const createBerita = async (data: FormData) => {
-  const response = await fetch(`${BASE_URL}/create`, {
+  const response = await fetchWithAuth(`${BASE_URL}/create`, {
     method: "POST",
     headers: { Authorization: `Bearer ${localStorage.getItem("USER_TOKEN")}` },
     body: data,

@@ -63,6 +63,9 @@ const CreateBeritaPage = () => {
 
     // Panggil API dengan FormData
     createBerita(formDataToSend);
+
+    console.log("Form data to send:", formDataToSend);
+    console.log(error)
   };
 
   return (

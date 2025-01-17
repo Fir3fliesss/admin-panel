@@ -37,10 +37,12 @@ export const useAuthToken = () => {
 
   const saveToken = (newToken: string) => {
     setToken(newToken);
+    window.localStorage.setItem("authToken", newToken);
   };
 
   const removeToken = () => {
     setToken(null);
+    window.localStorage.removeItem("authToken");
   };
 
   return { token, saveToken, removeToken };

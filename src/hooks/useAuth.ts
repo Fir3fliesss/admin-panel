@@ -8,7 +8,8 @@ export const useAuth = () => {
   const loginMutation = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
-      saveToken(data.token); // Simpan token setelah login berhasil
+      saveToken(data.data.token); // Simpan token setelah login berhasil
+      console.log("Login success:", data.data);
     },
     onError: (error) => {
       console.error("Login failed:", error);
