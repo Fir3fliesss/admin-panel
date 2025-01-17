@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDownIcon, LogOutIcon, SettingsIcon, UserIcon } from "lucide-react";
+import { ChevronDownIcon, LogOutIcon, UserIcon } from "lucide-react";
 
 const DropdownUser = () => {
   const [dropdownUserOpen, setDropdownUserOpen] = useState(false);
@@ -45,9 +45,10 @@ const DropdownUser = () => {
         >
           <div className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Super Admin
+            {/* Username Admin */}
+            Gherlady Ganteng
           </span>
-            <span className="block text-xs">Manager</span>
+            <span className="block text-xs">Amin</span>
           </div>
 
           <div className="flex items-center space-x-1">
@@ -69,26 +70,6 @@ const DropdownUser = () => {
             dropdownUserOpen ? "block" : "hidden"
           }`}
         >
-          <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7.5 dark:border-slate-700">
-            <li>
-              <Link
-                to="/profile"
-                className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
-              >
-                <UserIcon size={24} />
-                My Profile
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/settings"
-                className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
-              >
-                <SettingsIcon size={24} />
-                Account Settings
-              </Link>
-            </li>
-          </ul>
           <button
             className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
             <LogOutIcon size={24} />

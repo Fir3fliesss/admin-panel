@@ -1,19 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import SidebarLinkGroup from "./SidebarLinkGroup";
-import Logo from "../../../public/images/it-forelead.png";
 import {
   ArrowLeftToLine,
   BookTypeIcon,
-  CalendarDaysIcon,
   ChevronDownIcon,
-  LayersIcon,
-  LayoutGridIcon,
   LogInIcon,
-  PieChartIcon,
-  SettingsIcon,
-  TableIcon,
-  UserIcon
 } from "lucide-react";
 
 interface SidebarProps {
@@ -70,15 +62,19 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
   return (
     <aside
+      id="sidebar"
       ref={sidebar}
       className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-slate-900 duration-300 ease-linear dark:bg-slate-800 lg:static lg:translate-x-0 ${
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
       {/* <!-- SIDEBAR HEADER --> */}
-      <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-        <NavLink to="/" className="flex space-x-4 items-center text-white text-xl font-bold">
-          <img src={Logo} className="w-11 h-7" alt="Logo" />
+      <div className="flex items-center justify-between gap-2 px-6 pt-5.5 lg:pt-6.5">
+        <NavLink
+          to="/"
+          className="flex space-x-4 items-center text-white text-xl font-bold"
+        >
+          <img src="/images/favicon.webp" className="w-11" alt="Logo" />
           Admin Dashboard
         </NavLink>
 
@@ -88,6 +84,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           aria-controls="sidebar"
           aria-expanded={sidebarOpen}
           className="block lg:hidden text-white"
+          aria-label="Open sidebar"
         >
           <ArrowLeftToLine />
         </button>
@@ -104,10 +101,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             </h3>
 
             <ul className="mb-6 flex flex-col gap-1.5">
-              {/* <!-- Menu Item Dashboard --> */}
+              {/* <!-- Menu Item Berita --> */}
               <SidebarLinkGroup
                 activeCondition={
-                  pathname === "/" || pathname.includes("dashboard")
+                  pathname === "/berita" || pathname.includes("berita")
                 }
               >
                 {(handleClick, open) => {
@@ -115,9 +112,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     <>
                       <NavLink
                         to="#"
-                        className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-slate-200 duration-300 ease-in-out hover:bg-slate-600 dark:hover:bg-slate-600 ${
-                          (pathname === "/" ||
-                            pathname.includes("dashboard")) &&
+                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-slate-200 duration-300 ease-in-out hover:bg-slate-600 dark:hover:bg-slate-600 ${
+                          (pathname === "/berita" ||
+                            pathname.includes("berita")) &&
                           "bg-slate-700 dark:bg-slate-700"
                         }`}
                         onClick={(e) => {
@@ -127,11 +124,261 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             : setSidebarExpanded(true);
                         }}
                       >
-                        <LayoutGridIcon />
-                        Dashboard
-                        <ChevronDownIcon className={`absolute right-4 top-1/2 -translate-y-1/2 ${
-                          open && "rotate-180"
-                        }`} />
+                        <BookTypeIcon />
+                        Berita
+                        <ChevronDownIcon
+                          className={`absolute right-4 top-1/2 -translate-y-1/2 ${
+                            open && "rotate-180"
+                          }`}
+                        />
+                      </NavLink>
+                      {/* <!-- Dropdown Berita Start --> */}
+                      <div
+                        className={`translate transform overflow-hidden ${
+                          !open && "hidden"
+                        }`}
+                      >
+                        <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
+                          <li>
+                            <NavLink
+                              to="/berita/create"
+                              className={({ isActive }) =>
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
+                              }
+                            >
+                              Menambahkan Berita
+                            </NavLink>
+                          </li>
+                          <li>
+                            <NavLink
+                              to="/berita/update/${id}"
+                              className={({ isActive }) =>
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
+                              }
+                            >
+                              Mengedit Berita
+                            </NavLink>
+                          </li>
+                          <li>
+                            <NavLink
+                              to="/berita/delete/${id}"
+                              className={({ isActive }) =>
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
+                              }
+                            >
+                              Menghapus Berita
+                            </NavLink>
+                          </li>
+                        </ul>
+                      </div>
+                      {/* <!-- Dropdown Berita End --> */}
+                    </>
+                  );
+                }}
+              </SidebarLinkGroup>
+              {/* <!-- Menu Item Berita --> */}
+
+              {/* <!-- Menu Item Geleri --> */}
+              <SidebarLinkGroup
+                activeCondition={
+                  pathname === "/galeri" || pathname.includes("galeri")
+                }
+              >
+                {(handleClick, open) => {
+                  return (
+                    <>
+                      <NavLink
+                        to="#"
+                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-slate-200 duration-300 ease-in-out hover:bg-slate-600 dark:hover:bg-slate-600 ${
+                          (pathname === "/galeri" ||
+                            pathname.includes("galeri")) &&
+                          "bg-slate-700 dark:bg-slate-700"
+                        }`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          sidebarExpanded
+                            ? handleClick()
+                            : setSidebarExpanded(true);
+                        }}
+                      >
+                        <BookTypeIcon />
+                        Galeri
+                        <ChevronDownIcon
+                          className={`absolute right-4 top-1/2 -translate-y-1/2 ${
+                            open && "rotate-180"
+                          }`}
+                        />
+                      </NavLink>
+                      {/* <!-- Dropdown Galeri Start --> */}
+                      <div
+                        className={`translate transform overflow-hidden ${
+                          !open && "hidden"
+                        }`}
+                      >
+                        <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
+                          <li>
+                            <NavLink
+                              to="/galeri"
+                              className={({ isActive }) =>
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
+                              }
+                            >
+                              Menambahkan Galeri
+                            </NavLink>
+                          </li>
+                          <li>
+                            <NavLink
+                              to="/galeri/update/${id}"
+                              className={({ isActive }) =>
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
+                              }
+                            >
+                              Mengedit Galeri
+                            </NavLink>
+                          </li>
+                          <li>
+                            <NavLink
+                              to="/galeri/delete/${id}"
+                              className={({ isActive }) =>
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
+                              }
+                            >
+                              Menghapus Galeri
+                            </NavLink>
+                          </li>
+                        </ul>
+                      </div>
+                      {/* <!-- Dropdown Galeri End --> */}
+                    </>
+                  );
+                }}
+              </SidebarLinkGroup>
+              {/* <!-- Menu Item Galeri --> */}
+
+              {/* <!-- Menu Item Sapras --> */}
+              <SidebarLinkGroup
+                activeCondition={
+                  pathname === "/sapras" || pathname.includes("sapras")
+                }
+              >
+                {(handleClick, open) => {
+                  return (
+                    <>
+                      <NavLink
+                        to="#"
+                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-slate-200 duration-300 ease-in-out hover:bg-slate-600 dark:hover:bg-slate-600 ${
+                          (pathname === "/sapras" ||
+                            pathname.includes("sapras")) &&
+                          "bg-slate-700 dark:bg-slate-700"
+                        }`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          sidebarExpanded
+                            ? handleClick()
+                            : setSidebarExpanded(true);
+                        }}
+                      >
+                        <BookTypeIcon />
+                        Sapras
+                        <ChevronDownIcon
+                          className={`absolute right-4 top-1/2 -translate-y-1/2 ${
+                            open && "rotate-180"
+                          }`}
+                        />
+                      </NavLink>
+                      {/* <!-- Dropdown Sapras Start --> */}
+                      <div
+                        className={`translate transform overflow-hidden ${
+                          !open && "hidden"
+                        }`}
+                      >
+                        <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
+                          <li>
+                            <NavLink
+                              to="/sapras/create"
+                              className={({ isActive }) =>
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
+                              }
+                            >
+                              Menambahkan Sapras
+                            </NavLink>
+                          </li>
+                          <li>
+                            <NavLink
+                              to="/sapras/update/${id}"
+                              className={({ isActive }) =>
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
+                              }
+                            >
+                              Mengedit Sapras
+                            </NavLink>
+                          </li>
+                          <li>
+                            <NavLink
+                              to="/sapras/delete/${id}"
+                              className={({ isActive }) =>
+                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
+                              }
+                            >
+                              Menghapus Sapras
+                            </NavLink>
+                          </li>
+                        </ul>
+                      </div>
+                      {/* <!-- Dropdown Sapras End --> */}
+                    </>
+                  );
+                }}
+              </SidebarLinkGroup>
+              {/* <!-- Menu Item Sapras --> */}
+            </ul>
+          </div>
+
+          {/* <!-- Others Group --> */}
+          <div>
+            <h3 className="mb-4 ml-4 text-sm font-semibold text-slate-400">
+              Lainnya
+            </h3>
+
+            <ul className="mb-6 flex flex-col gap-1.5">
+              {/* <!-- Menu Item Auth Pages --> */}
+              <SidebarLinkGroup
+                activeCondition={
+                  pathname === "/" || pathname.includes("auth")
+                }
+              >
+                {(handleClick, open) => {
+                  return (
+                    <>
+                      <NavLink
+                        to="#"
+                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-slate-200 duration-300 ease-in-out hover:bg-slate-600 dark:hover:bg-slate-600 ${
+                          (pathname === "/" || pathname.includes("auth")) &&
+                          "bg-slate-700 dark:bg-slate-700"
+                        }`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          sidebarExpanded
+                            ? handleClick()
+                            : setSidebarExpanded(true);
+                        }}
+                      >
+                        <LogInIcon />
+                        Authentication
+                        <ChevronDownIcon
+                          className={`absolute right-4 top-1/2 -translate-y-1/2 ${
+                            open && "rotate-180"
+                          }`}
+                        />
                       </NavLink>
                       {/* <!-- Dropdown Menu Start --> */}
                       <div
@@ -148,285 +395,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 (isActive && "!text-white")
                               }
                             >
-                              eCommerce
-                            </NavLink>
-                          </li>
-                        </ul>
-                      </div>
-                      {/* <!-- Dropdown Menu End --> */}
-                    </>
-                  );
-                }}
-              </SidebarLinkGroup>
-              {/* <!-- Menu Item Dashboard --> */}
-
-              {/* <!-- Menu Item Calendar --> */}
-              <li>
-                <NavLink
-                  to="/calendar"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-slate-200 duration-300 ease-in-out hover:bg-slate-600 dark:hover:bg-slate-600 ${
-                    pathname.includes("calendar") &&
-                    "bg-slate-700 dark:bg-slate-700"
-                  }`}
-                >
-                  <CalendarDaysIcon />
-                  Calendar
-                </NavLink>
-              </li>
-              {/* <!-- Menu Item Calendar --> */}
-
-              {/* <!-- Menu Item Profile --> */}
-              <li>
-                <NavLink
-                  to="/profile"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-slate-200 duration-300 ease-in-out hover:bg-slate-600 dark:hover:bg-slate-600 ${
-                    pathname.includes("profile") && "bg-slate-700 dark:bg-slate-700"
-                  }`}
-                >
-                  <UserIcon />
-                  Profile
-                </NavLink>
-              </li>
-              {/* <!-- Menu Item Profile --> */}
-
-              {/* <!-- Menu Item Forms --> */}
-              <SidebarLinkGroup
-                activeCondition={
-                  pathname === "/forms" || pathname.includes("forms")
-                }
-              >
-                {(handleClick, open) => {
-                  return (
-                    <>
-                      <NavLink
-                        to="#"
-                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-slate-200 duration-300 ease-in-out hover:bg-slate-600 dark:hover:bg-slate-600 ${
-                          (pathname === "/forms" ||
-                            pathname.includes("forms")) &&
-                          "bg-slate-700 dark:bg-slate-700"
-                        }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          sidebarExpanded
-                            ? handleClick()
-                            : setSidebarExpanded(true);
-                        }}
-                      >
-                        <BookTypeIcon />
-                        Forms
-                        <ChevronDownIcon className={`absolute right-4 top-1/2 -translate-y-1/2 ${
-                          open && "rotate-180"
-                        }`} />
-                      </NavLink>
-                      {/* <!-- Dropdown Menu Start --> */}
-                      <div
-                        className={`translate transform overflow-hidden ${
-                          !open && "hidden"
-                        }`}
-                      >
-                        <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
-                          <li>
-                            <NavLink
-                              to="/forms/form-elements"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              Form Elements
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/forms/form-layout"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              Form Layout
-                            </NavLink>
-                          </li>
-                        </ul>
-                      </div>
-                      {/* <!-- Dropdown Menu End --> */}
-                    </>
-                  );
-                }}
-              </SidebarLinkGroup>
-              {/* <!-- Menu Item Forms --> */}
-
-              {/* <!-- Menu Item Tables --> */}
-              <li>
-                <NavLink
-                  to="/tables"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-slate-200 duration-300 ease-in-out hover:bg-slate-600 dark:hover:bg-slate-600 ${
-                    pathname.includes("tables") && "bg-slate-700 dark:bg-slate-700"
-                  }`}
-                >
-                  <TableIcon />
-                  Tables
-                </NavLink>
-              </li>
-              {/* <!-- Menu Item Tables --> */}
-
-              {/* <!-- Menu Item Settings --> */}
-              <li>
-                <NavLink
-                  to="/settings"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-slate-200 duration-300 ease-in-out hover:bg-slate-600 dark:hover:bg-slate-600 ${
-                    pathname.includes("settings") &&
-                    "bg-slate-700 dark:bg-slate-700"
-                  }`}
-                >
-                  <SettingsIcon />
-                  Settings
-                </NavLink>
-              </li>
-              {/* <!-- Menu Item Settings --> */}
-            </ul>
-          </div>
-
-          {/* <!-- Others Group --> */}
-          <div>
-            <h3 className="mb-4 ml-4 text-sm font-semibold text-slate-400">
-              OTHERS
-            </h3>
-
-            <ul className="mb-6 flex flex-col gap-1.5">
-              {/* <!-- Menu Item Chart --> */}
-              <li>
-                <NavLink
-                  to="/chart"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-slate-200 duration-300 ease-in-out hover:bg-slate-600 dark:hover:bg-slate-600 ${
-                    pathname.includes("chart") && "bg-slate-700 dark:bg-slate-700"
-                  }`}
-                >
-                  <PieChartIcon />
-                  Chart
-                </NavLink>
-              </li>
-              {/* <!-- Menu Item Chart --> */}
-
-              {/* <!-- Menu Item Ui Elements --> */}
-              <SidebarLinkGroup
-                activeCondition={pathname === "/ui" || pathname.includes("ui")}
-              >
-                {(handleClick, open) => {
-                  return (
-                    <>
-                      <NavLink
-                        to="#"
-                        className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-slate-200 duration-300 ease-in-out hover:bg-slate-600 dark:hover:bg-slate-600 ${
-                          (pathname === "/ui" || pathname.includes("ui")) &&
-                          "bg-slate-700 dark:bg-slate-700"
-                        }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          sidebarExpanded
-                            ? handleClick()
-                            : setSidebarExpanded(true);
-                        }}
-                      >
-                        <LayersIcon />
-                        UI Elements
-                        <ChevronDownIcon className={`absolute right-4 top-1/2 -translate-y-1/2 ${
-                          open && "rotate-180"
-                        }`} />
-                      </NavLink>
-                      {/* <!-- Dropdown Menu Start --> */}
-                      <div
-                        className={`translate transform overflow-hidden ${
-                          !open && "hidden"
-                        }`}
-                      >
-                        <ul className="mb-5.5 mt-4 flex flex-col gap-2.5 pl-6">
-                          <li>
-                            <NavLink
-                              to="/ui/alerts"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              Alerts
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/ui/buttons"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              Buttons
-                            </NavLink>
-                          </li>
-                        </ul>
-                      </div>
-                      {/* <!-- Dropdown Menu End --> */}
-                    </>
-                  );
-                }}
-              </SidebarLinkGroup>
-              {/* <!-- Menu Item Ui Elements --> */}
-
-              {/* <!-- Menu Item Auth Pages --> */}
-              <SidebarLinkGroup
-                activeCondition={
-                  pathname === "/auth" || pathname.includes("auth")
-                }
-              >
-                {(handleClick, open) => {
-                  return (
-                    <>
-                      <NavLink
-                        to="#"
-                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-slate-200 duration-300 ease-in-out hover:bg-slate-600 dark:hover:bg-slate-600 ${
-                          (pathname === "/auth" || pathname.includes("auth")) &&
-                          "bg-slate-700 dark:bg-slate-700"
-                        }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          sidebarExpanded
-                            ? handleClick()
-                            : setSidebarExpanded(true);
-                        }}
-                      >
-                        <LogInIcon />
-                        Authentication
-                        <ChevronDownIcon className={`absolute right-4 top-1/2 -translate-y-1/2 ${
-                          open && "rotate-180"
-                        }`} />
-                      </NavLink>
-                      {/* <!-- Dropdown Menu Start --> */}
-                      <div
-                        className={`translate transform overflow-hidden ${
-                          !open && "hidden"
-                        }`}
-                      >
-                        <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
-                          <li>
-                            <NavLink
-                              to="/auth/signin"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
                               Sign In
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/auth/signup"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              Sign Up
                             </NavLink>
                           </li>
                         </ul>

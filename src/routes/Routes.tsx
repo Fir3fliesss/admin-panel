@@ -1,125 +1,128 @@
 import { createBrowserRouter } from "react-router-dom";
 import DefaultLayout from "@/layout/DefaultLayout.tsx";
-import ECommerce from "@/pages/Dashboard/ECommerce.tsx";
+import Welcome from "@/pages/Dashboard/Welcome";
 import PageTitle from "@/components/PageTitle";
-import Calendar from "@/pages/Calendar";
-import Profile from "@/pages/Profile";
-import Tables from "@/pages/Tables";
-import Settings from "@/pages/Settings";
-import Chart from "@/pages/Chart";
-import Alerts from "@/pages/UiElements/Alerts";
-import Buttons from "@/pages/UiElements/Buttons";
-import SignUp from "@/pages/Authentication/SignUp";
-import FormElements from "@/pages/Form/FormElements";
-import FormLayout from "@/pages/Form/FormLayout";
 import SignIn from "@/pages/Authentication/SignIn";
+import CreateBerita from "@/pages/Dashboard/Berita/CreateBeritaPage";
+import UpdateBerita from "@/pages/Dashboard/Berita/UpdateBeritaPage";
+import DeleteBerita from "@/pages/Dashboard/Berita/DeleteBeritaPage";
+import GaleriPage from "@/pages/Dashboard/Galeri/GaleriPage";
+// import CreateGaleri from "@/pages/Dashboard/Galeri/CreateGaleriPage";
+// import UpdateGaleri from "@/pages/Dashboard/Galeri/UpdateGaleriPage";
+// import DeleteGaleri from "@/pages/Dashboard/Galeri/DeleteGaleriPage";
+// import CreateSarana from "@/pages/Dashboard/Sapras/CreateSaprasPage";
+// import UpdateSarana from "@/pages/Dashboard/Sapras/UpdateSaprasPage";
+// import DeleteSarana from "@/pages/Dashboard/Sapras/DeleteSaprasPage";
+// import NotFoundPage from "@/pages/NotFoundPage";
 
 export const router = createBrowserRouter([
   {
-    path: "/auth/signin",
-    element:
+    path: "/",
+    element: (
       <>
-        <PageTitle title="Signin | Admin - Template" />
+        <PageTitle title="Signin | Admin Panel" />
         <SignIn />
       </>
+    ),
   },
   {
-    path: "/auth/signup",
-    element:
-      <>
-        <PageTitle title="Signup | Admin - Template" />
-        <SignUp />
-      </>
-  },
-  {
-    path: "/",
+    path: "/Welcome",
     element: <DefaultLayout />,
-    // errorElement: <NotFound />,
     children: [
       {
         index: true,
-        element:
+        element: (
           <>
-            <PageTitle title="eCommerce Dashboard | Admin - Template" />
-            <ECommerce />
+            <PageTitle title="Dashboard Admin SMK PLUSPNB" />
+            <Welcome />
           </>
-      },
-      {
-        path: "/calendar",
-        element:
-          <>
-            <PageTitle title="Calendar | Admin - Template" />
-            <Calendar />
-          </>
-      },
-      {
-        path: "/profile",
-        element:
-          <>
-            <PageTitle title="Profile | Admin - Template" />
-            <Profile />
-          </>
-      },
-      {
-        path: "/tables",
-        element:
-          <>
-            <PageTitle title="Tables | Admin - Template" />
-            <Tables />
-          </>
-      },
-      {
-        path: "/settings",
-        element:
-          <>
-            <PageTitle title="Settings | Admin - Template" />
-            <Settings />
-          </>
-      },
-      {
-        path: "/chart",
-        element:
-          <>
-            <PageTitle title="Chart | Admin - Template" />
-            <Chart/>
-          </>
-      },
-      {
-        path: "/ui/alerts",
-        element:
-          <>
-            <PageTitle title="Alerts | Admin - Template" />
-            <Alerts/>
-          </>
-      },
-      {
-        path: "/ui/buttons",
-        element:
-          <>
-            <PageTitle title="Buttons | Admin - Template" />
-            <Buttons/>
-          </>
-      },
-      {
-        path: "/forms/form-elements",
-        element:
-          <>
-            <PageTitle title="Form Elements | Admin - Template" />
-            <FormElements />
-          </>
-      },
-      {
-        path: "/forms/form-layout",
-        element:
-          <>
-            <PageTitle title="Form Layout | Admin - Template" />
-            <FormLayout />
-          </>
+        ),
       },
     ],
   },
   {
+    path: "/berita",
+    element: <DefaultLayout />,
+    children: [
+      {
+        path: "create",
+        element: (
+          <>
+            <PageTitle title="Create Berita - Admin SMK PLUSPNB" />
+            <CreateBerita />
+          </>
+        ),
+      },
+      {
+        path: "update/:id",
+        element: (
+          <>
+            <PageTitle title="Update Berita - Admin SMK PLUSPNB" />
+            <UpdateBerita />
+          </>
+        ),
+      },
+      {
+        path: "delete/:id",
+        element: (
+          <>
+            <PageTitle title="Delete Berita - Admin SMK PLUSPNB" />
+            <DeleteBerita />
+          </>
+        ),
+      },
+    ],
+  },
+  {
+    path: "/galeri",
+    element: (
+      <>
+        <PageTitle title="Signin | Admin Panel" />
+        <GaleriPage />
+      </>
+    ),
+  },
+  // {
+  //   path: "/sarana",
+  //   element: <DefaultLayout />,
+  //   children: [
+  //     {
+  //       path: "create",
+  //       element: (
+  //         <>
+  //           <PageTitle title="Create Sarana - Admin SMK PLUSPNB" />
+  //           <CreateSarana />
+  //         </>
+  //       ),
+  //     },
+  //     {
+  //       path: "update/:id",
+  //       element: (
+  //         <>
+  //           <PageTitle title="Update Sarana - Admin SMK PLUSPNB" />
+  //           <UpdateSarana />
+  //         </>
+  //       ),
+  //     },
+  //     {
+  //       path: "delete/:id",
+  //       element: (
+  //         <>
+  //           <PageTitle title="Delete Sarana - Admin SMK PLUSPNB" />
+  //           <DeleteSarana />
+  //         </>
+  //       ),
+  //     },
+  //   ],
+  // },
+  {
     path: "*",
-    element: <div>404</div>,
-  }
+    element: (
+      <>
+        <PageTitle title="404 - Halaman Tidak Ditemukan" />
+        {/* <NotFoundPage /> */}
+        <h1>404 - Halaman Tidak Ditemukan</h1>
+      </>
+    ),
+  },
 ]);

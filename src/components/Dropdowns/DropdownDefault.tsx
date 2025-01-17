@@ -38,6 +38,7 @@ const DropdownDefault = () => {
         className="text-[#98A6AD] hover:text-slate-500"
         ref={trigger}
         onClick={() => setDropdownOpen(!dropdownOpen)}
+        aria-label="Open dropdown menu"
       >
         <svg
           className="fill-current"
@@ -66,7 +67,7 @@ const DropdownDefault = () => {
         onFocus={() => setDropdownOpen(true)}
         onBlur={() => setDropdownOpen(false)}
         className={`absolute right-0 top-full z-40 w-40 space-y-1 rounded-sm border border-stroke bg-white p-1.5 shadow-default dark:border-slate-700 dark:bg-slate-800 ${
-          dropdownOpen ? 'block' : 'hidden'
+          dropdownOpen ? "block" : "hidden"
         }`}
       >
         <button className="flex w-full items-center gap-2 rounded-sm px-4 py-1.5 text-left text-sm hover:bg-gray dark:hover:bg-slate-700">
