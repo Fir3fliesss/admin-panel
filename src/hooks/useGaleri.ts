@@ -84,6 +84,7 @@ export const useDeleteGaleri = () => {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`, // Tambahkan token ke header
+            accept: "application/json",
           },
         },
       );

@@ -1,7 +1,6 @@
 "use client";
 import { useGetBerita, useDeleteBerita } from "@/hooks/useBerita";
 import { Pencil, Trash2 } from "lucide-react";
-import { useState, FormEvent } from "react";
 
 export default function ListBerita() {
   interface News {
@@ -48,7 +47,10 @@ export default function ListBerita() {
             </div>
           </div>
           <div className="flex space-x-2">
-            <div className="h-8 w-8 flex justify-center items-center rounded text-zinc-400 hover:text-white hover:bg-zinc-700">
+            <div
+
+             className="h-8 w-8 flex justify-center items-center rounded text-zinc-400 hover:text-white hover:bg-zinc-700"
+             >
               <Pencil className="h-4 w-4" />
               <span className="sr-only">Edit</span>
             </div>

@@ -71,7 +71,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }: Sideba
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 pt-5.5 lg:pt-6.5">
         <NavLink
-          to="/"
+          to="/welcome"
           className="flex space-x-4 items-center text-white text-xl font-bold"
         >
           <img src="/images/favicon.webp" className="w-11" alt="Logo" />
@@ -82,7 +82,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }: Sideba
           ref={trigger}
           onClick={() => setSidebarOpen(!sidebarOpen)}
           aria-controls="sidebar"
-          aria-expanded={sidebarOpen}
+          // aria-expanded={sidebarOpen}
           className="block lg:hidden text-white"
           aria-label="Open sidebar"
         >
@@ -362,7 +362,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }: Sideba
                                 (isActive && "!text-white")
                               }
                             >
-                              Sign In
+                              Log Out
                             </NavLink>
                           </li>
                         </ul>

@@ -12,10 +12,9 @@ import {
   Subtitles,
   FileText,
   Newspaper,
-  List,
 } from "lucide-react";
 
-const BASE_URL = "https://api.smkpluspnb.sch.id/api/api/v1/berita/show";
+// const BASE_URL = "https://api.smkpluspnb.sch.id/api/api/v1/berita/show";
 
 interface Berita {
   id: string;

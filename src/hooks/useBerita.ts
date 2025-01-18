@@ -17,6 +17,8 @@ export const useCreateBerita = () => {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
+            // accept: "application/json",
+            // "Content-Type": "application/json",
           },
           body: formData,
           // mode: "cors",

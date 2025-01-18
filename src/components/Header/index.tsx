@@ -14,7 +14,7 @@ const Header = (props: {
         <div className="flex justify-center items-center gap-2 sm:gap-4 lg:hidden">
           <button
             title="Toggle Sidebar"
-            aria-controls="sidebar"
+            // aria-controls="sidebar"
             onClick={(e) => {
               e.stopPropagation();
               props.setSidebarOpen(!props.sidebarOpen);
@@ -23,7 +23,7 @@ const Header = (props: {
           >
             <Menu />
           </button>
-          <Link className="block flex-shrink-0 lg:hidden" to="/">
+          <Link className="block flex-shrink-0 lg:hidden" to="/welcome">
             <img src="/images/favicon.webp" className="w-12" alt="Logo" />
           </Link>
         </div>

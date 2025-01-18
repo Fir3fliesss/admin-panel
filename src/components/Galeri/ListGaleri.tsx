@@ -3,10 +3,11 @@ import { useGetGaleri, useDeleteGaleri } from "@/hooks/useGaleri";
 import { Pencil, Trash2 } from "lucide-react";
 
 export default function ListGaleri() {
+
   interface Galeri {
     id: string;
-    title: string[];
-    image: string[];
+    title: string;
+    image: string;
     galeri_id: string;
   }
 
@@ -14,8 +15,11 @@ export default function ListGaleri() {
   const { mutate: deleteGaleri } = useDeleteGaleri();
 
   if (isPending) return <p>Loading...</p>;
-  if (!data) return <p>No galeri found</p>;
-  console.log("Galeri: ", data.data);
+  if (!data || !data.data) return <p>No galeri found</p>;
+
+  const galeriArray: Galeri[] = Object.values(data.data);
+
+  console.log("Galeri nya berisi: ", galeriArray);
 
   const handleDelete = (id: string) => {
     console.log("Deleting Galeri with id:", id);
@@ -24,7 +28,7 @@ export default function ListGaleri() {
 
   return (
     <div className="mx-auto mb-16">
-      {data.data.map((galeri: Galeri) => (
+      {galeriArray.map((galeri: Galeri) => (
         <div
           key={galeri.id}
           className="flex items-center justify-between rounded-lg bg-transparent p-4 hover:bg-zinc-300/10 transition-colors"

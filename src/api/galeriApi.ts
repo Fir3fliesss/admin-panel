@@ -43,7 +43,9 @@ export const updateGaleri = async ({
 export const deleteGaleri = async (id: string) => {
   const response = await fetch(`${BASE_URL}/delete/${id}`, {
     method: "POST",
-    headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
+    headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    accept: "application/json",
+  },
   });
   if (!response.ok) throw new Error("Failed to delete galeri");
   return response.json();
