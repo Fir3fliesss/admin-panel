@@ -1,10 +1,16 @@
 import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { useCreateGaleri } from "../../../hooks/useGaleri";
-import { ImagePlus, Type, Newspaper } from "lucide-react";
 
-//? I have worked in this code for almost 15 hours, don't ruin it -Gheraldy
+import {
+  ImagePlus,
+  Type,
+  Newspaper,
+} from "lucide-react";
+
+//? I have work in this code for almost 15 hours don't ruin it -Gheraldy
 
 const CreateGaleriPage: React.FC = () => {
+
   useEffect(() => {
     const dropzone = document.getElementById("dropzone");
     const input = document.getElementById("file-upload") as HTMLInputElement;
@@ -32,7 +38,7 @@ const CreateGaleriPage: React.FC = () => {
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files[0]) {
-        setFormData({ ...formData, images: e.target.files![0] });
+        displayPreview(e.target.files![0]);
       }
     };
 
@@ -76,7 +82,6 @@ const CreateGaleriPage: React.FC = () => {
     error,
     isPending,
   } = useCreateGaleri();
-
   const [formData, setFormData] = useState({
     title: "",
     images: null as File | null,
@@ -92,32 +97,31 @@ const CreateGaleriPage: React.FC = () => {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFormData({ ...formData, images: e.target.files[0] });
+      setFormData({ ...formData, images: e.target.files[0] }); // Simpan file yang dipilih
     }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Ensure both title and image are provided
-    if (!formData.title || !formData.images) {
-      alert("Title and image are required.");
-      return;
-    }
+    if (!formData.title || formData.title.length === 0 || !formData.images) {
+    alert("Title and image(s) are required.");
+    return;
+  }
 
     try {
       const formDataToSend = new FormData();
-      formDataToSend.append("title[]", formData.title);
+      if (formData.title) {
+        formDataToSend.append("title[]", formData.title);
+      }
       if (formData.images) {
         formDataToSend.append("image[]", formData.images);
       }
 
-      // Log the form data for debugging
       for (const pair of formDataToSend.entries()) {
         console.log(`${pair[0]}:`, pair[1]);
       }
 
-      // Create gallery using mutation
       createGaleri(formDataToSend);
     } catch (error) {
       console.error("Error creating galeri:", error);
@@ -134,23 +138,23 @@ const CreateGaleriPage: React.FC = () => {
         Create Galeri
       </h1>
 
-      {/* Success message */}
+      {/* Tampilkan pesan sukses */}
       {isSuccess && (
         <div className="mb-4 p-4 bg-green-100 text-green-700 rounded-lg">
-          Galeri created successfully!
+          News created successfully!
         </div>
       )}
 
-      {/* Error message */}
+      {/* Tampilkan pesan error */}
       {isError && (
-        <div className="mb-4 p-4 bg-red-100 text-red-700 rounded-lg">
+        <div className="mb-4 p-4 bg-red-100 text-red-700 rounded-lg h-fit w-fit">
           Failed to create galeri:{" "}
           {error instanceof Error ? error.message : "Unknown error"}
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Title Input */}
+        {/* Input untuk Title */}
         <div className="space-y-2">
           <label className="flex items-center text-sm font-medium text-gray-700">
             <Type className="w-4 h-4 mr-2" />
@@ -165,7 +169,7 @@ const CreateGaleriPage: React.FC = () => {
           />
         </div>
 
-        {/* Image Input */}
+        {/* Input untuk Images (File Upload) */}
         <div className="space-y-2">
           <label className="flex items-center text-sm font-medium text-gray-700">
             <ImagePlus className="w-4 h-4 mr-2" />
@@ -177,7 +181,7 @@ const CreateGaleriPage: React.FC = () => {
           >
             <div className="space-y-1 text-center">
               <div className="flex text-sm text-gray-600">
-                <label className="relative cursor-pointer rounded-lg font-medium text-indigo-600 hover:text-indigo-500">
+                <label className="relative cursor-pointer rounded-lg font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
                   <span>Upload a file</span>
                   <input
                     type="file"
@@ -202,13 +206,14 @@ const CreateGaleriPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Submit Button */}
+        {/* Tombol Submit */}
         <button
           type="submit"
-          disabled={isPending}
+          disabled={isPending} // Ganti isLoading dengan isPending
           className="px-4 py-2 bg-blue-500 text-white rounded-lg disabled:bg-gray-400"
         >
-          {isPending ? "Loading..." : "Create"}
+          {isPending ? "Loading..." : "Create"}{" "}
+          {/* Ganti isLoading dengan isPending */}
         </button>
       </form>
     </div>
