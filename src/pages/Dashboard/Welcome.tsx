@@ -1,4 +1,4 @@
-const Welcome = () => {
+const Welcome: React.FC = () => {
   var username = window.localStorage.getItem('authName');
   return (
     <>

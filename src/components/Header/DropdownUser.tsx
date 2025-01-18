@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDownIcon, LogOutIcon, UserIcon } from "lucide-react";
 
-const DropdownUser = () => {
+const DropdownUser:React.FC = () => {
+  var username = window.localStorage.getItem("authName");
   const [dropdownUserOpen, setDropdownUserOpen] = useState(false);
 
   const trigger = useRef<any>(null);
@@ -24,7 +25,6 @@ const DropdownUser = () => {
     return () => document.removeEventListener("click", clickHandler);
   });
 
-  // close if the esc key is pressed
   useEffect(() => {
     const keyHandler = ({ keyCode }: KeyboardEvent) => {
       if (!dropdownUserOpen || keyCode !== 27) return;
@@ -45,8 +45,7 @@ const DropdownUser = () => {
         >
           <div className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            {/* Username Admin */}
-            Gherlady Ganteng
+            {username} ganteng
           </span>
             <span className="block text-xs">Amin</span>
           </div>

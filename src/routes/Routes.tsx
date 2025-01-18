@@ -11,7 +11,8 @@ import DeleteBerita from "@/pages/Dashboard/Berita/DeleteBeritaPage";
 import CreateGaleri from "@/pages/Dashboard/Galeri/CreateGaleriPage";
 // import UpdateGaleri from "@/pages/Dashboard/Galeri/UpdateGaleriPage";
 // import DeleteGaleri from "@/pages/Dashboard/Galeri/DeleteGaleriPage";
-// import CreateSarana from "@/pages/Dashboard/Sapras/CreateSaprasPage";
+// Sarana
+import CreateSarana from "@/pages/Dashboard/Sapras/CreateSaprasPage";
 // import UpdateSarana from "@/pages/Dashboard/Sapras/UpdateSaprasPage";
 // import DeleteSarana from "@/pages/Dashboard/Sapras/DeleteSaprasPage";
 // import NotFoundPage from "@/pages/NotFoundPage";
@@ -107,39 +108,37 @@ export const router = createBrowserRouter([
       },
     ],
   },
-  // {
-  //   path: "/sarana",
-  //   element: <DefaultLayout />,
-  //   children: [
-  //     {
-  //       path: "create",
-  //       element: (
-  //         <>
-  //           <PageTitle title="Create Sarana - Admin SMK PLUSPNB" />
-  //           <CreateSarana />
-  //         </>
-  //       ),
-  //     },
-  //     {
-  //       path: "update/:id",
-  //       element: (
-  //         <>
-  //           <PageTitle title="Update Sarana - Admin SMK PLUSPNB" />
-  //           <UpdateSarana />
-  //         </>
-  //       ),
-  //     },
-  //     {
-  //       path: "delete/:id",
-  //       element: (
-  //         <>
-  //           <PageTitle title="Delete Sarana - Admin SMK PLUSPNB" />
-  //           <DeleteSarana />
-  //         </>
-  //       ),
-  //     },
-  //   ],
-  // },
+  {
+    path: "/sarana",
+    element: <DefaultLayout />,
+    children: [
+      {
+        path: "create",
+        element: (
+          <>
+            <PageTitle title="Create Sarana - Admin SMK PLUSPNB" />
+            <CreateSarana />
+          </>
+        ),
+      },
+      {
+        path: "update/:id",
+        element: (
+          <>
+            <PageTitle title="Update Sarana - Admin SMK PLUSPNB" />
+          </>
+        ),
+      },
+      {
+        path: "delete/:id",
+        element: (
+          <>
+            <PageTitle title="Delete Sarana - Admin SMK PLUSPNB" />
+          </>
+        ),
+      },
+    ],
+  },
   {
     path: "*",
     element: (

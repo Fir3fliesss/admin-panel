@@ -13,6 +13,7 @@ const Header = (props: {
         {/* Kiri: Logo dan Hamburger */}
         <div className="flex justify-center items-center gap-2 sm:gap-4 lg:hidden">
           <button
+            title="Toggle Sidebar"
             aria-controls="sidebar"
             onClick={(e) => {
               e.stopPropagation();
@@ -27,7 +28,6 @@ const Header = (props: {
           </Link>
         </div>
 
-        {/* Kanan: Dark Mode Switcher dan Dropdown User */}
         <div className="flex items-center gap-3 ml-auto 2xsm:gap-7">
           <ul className="flex items-center gap-2 2xsm:gap-4">
             <li>

@@ -1,44 +1,50 @@
 const BASE_URL = "https://api.smkpluspnb.sch.id/api/api/v1/sarana";
 
-export const getSarana = async () => {
-  const response = await fetch(`${BASE_URL}/show`);
-  if (!response.ok) throw new Error("Failed to fetch sarana");
+export const getBerita = async () => {
+  const response = await fetch(`${BASE_URL}/show`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
+  });
+  if (!response.ok) throw new Error("Failed to fetch berita");
   return response.json();
 };
 
-export const createSarana = async (data: {
-  images: string[];
-  titles: string[];
-}) => {
+export const createBerita = async (data: FormData) => {
   const response = await fetch(`${BASE_URL}/create`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    },
+    body: data,
+    mode: "cors",
   });
-  if (!response.ok) throw new Error("Failed to create sarana");
+  console.log("Res: ", response);
+  console.log("Data: ", data);
+  if (!response.ok) throw new Error("Failed to create berita");
   return response.json();
 };
 
-export const updateSarana = async ({
+export const updateBerita = async ({
   id,
   data,
 }: {
   id: string;
-  data: { images: string[]; titles: string[] };
+  data: FormData;
 }) => {
   const response = await fetch(`${BASE_URL}/update/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+    method: "POST",
+    headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
+    body: data,
   });
-  if (!response.ok) throw new Error("Failed to update sarana");
+  if (!response.ok) throw new Error("Failed to update berita");
+  console.log("Res: ", response);
   return response.json();
 };
 
-export const deleteSarana = async (id: string) => {
+export const deleteBerita = async (id: string) => {
   const response = await fetch(`${BASE_URL}/delete/${id}`, {
-    method: "DELETE",
+    method: "POST",
+    headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
   });
-  if (!response.ok) throw new Error("Failed to delete sarana");
+  if (!response.ok) throw new Error("Failed to delete berita");
   return response.json();
 };
