@@ -2,6 +2,7 @@ import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useGetBerita, useUpdateBerita } from "../../../hooks/useBerita";
 import { useParams } from "react-router-dom";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import ListBerita from "../../../components/Berita/ListBerita";
 import {
   Plus,
   X,
@@ -11,6 +12,7 @@ import {
   Subtitles,
   FileText,
   Newspaper,
+  List,
 } from "lucide-react";
 
 const BASE_URL = "https://api.smkpluspnb.sch.id/api/api/v1/berita/show";
@@ -34,6 +36,7 @@ const UpdateBeritaPage = () => {
     isError,
     isPending,
   } = useUpdateBerita();
+  
   const [formData, setFormData] = useState({
     title: "",
     subtitle: "",
@@ -69,9 +72,8 @@ const UpdateBeritaPage = () => {
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files[0]) {
-        setFormData({ ...formData, images: e.target.files[0] });
+        displayPreview(e.target.files![0]);
       }
-      displayPreview(e.target.files![0]);
     };
 
     function displayPreview(file: File) {
@@ -171,6 +173,7 @@ const UpdateBeritaPage = () => {
 
   return (
     <div className="p-4">
+      <ListBerita />
       <h1 className="text-2xl font-bold mb-4 flex items-center gap-2">
         <Newspaper className="w-6 h-6" />
         Update News

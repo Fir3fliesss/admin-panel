@@ -20,7 +20,7 @@ const CreateBeritaPage = () => {
   };
 
   const handleTagsChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const tags = e.target.value.split(","); // Pisahkan tags dengan koma
+    const tags = e.target.value.split(",");
     setFormData({ ...formData, tags });
   };
 
