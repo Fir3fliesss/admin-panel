@@ -1,49 +1,50 @@
-import { fetchWithAuth } from "./utils";
+const BASE_URL = "https://api.smkpluspnb.sch.id/api/api/v1/galeri";
 
-const BASE_URL = "https://api.smkpluspnb.sch.id/api/api";
-
-/**
- * Mendapatkan semua data galeri.
- */
-export const getGaleri = async () => {
-  const response = await fetchWithAuth(`${BASE_URL}/v1/galeri/show`);
-  return response.data;
+export const getBerita = async () => {
+  const response = await fetch(`${BASE_URL}/show`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
+  });
+  if (!response.ok) throw new Error("Failed to fetch berita");
+  return response.json();
 };
 
-/**
- * Membuat galeri baru.
- */
-export const createGaleri = async (data: FormData) => {
-  const response = await fetchWithAuth(`${BASE_URL}/api/v1/galeri/create`, {
+export const createBerita = async (data: FormData) => {
+  const response = await fetch(`${BASE_URL}/create`, {
     method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    },
+    body: data,
+    mode: "cors",
+  });
+  console.log("Res: ", response);
+  console.log("Data: ", data);
+  if (!response.ok) throw new Error("Failed to create berita");
+  return response.json();
+};
+
+export const updateBerita = async ({
+  id,
+  data,
+}: {
+  id: string;
+  data: FormData;
+}) => {
+  const response = await fetch(`${BASE_URL}/update/${id}`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
     body: data,
   });
-  return response.data;
+  if (!response.ok) throw new Error("Failed to update berita");
+  console.log("Res: ", response);
+  return response.json();
 };
 
-/**
- * Memperbarui galeri.
- */
-export const updateGaleri = async (id: string, data: FormData) => {
-  const response = await fetchWithAuth(
-    `${BASE_URL}/api/v1/galeri/update/${id}`,
-    {
-      method: "POST",
-      body: data,
-    },
-  );
-  return response.data;
-};
-
-/**
- * Menghapus galeri.
- */
-export const deleteGaleri = async (id: string) => {
-  const response = await fetchWithAuth(
-    `${BASE_URL}/api/v1/galeri/delete/${id}`,
-    {
-      method: "POST",
-    },
-  );
-  return response.data;
+export const deleteBerita = async (id: string) => {
+  const response = await fetch(`${BASE_URL}/delete/${id}`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
+  });
+  if (!response.ok) throw new Error("Failed to delete berita");
+  return response.json();
 };
