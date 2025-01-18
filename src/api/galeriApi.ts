@@ -1,14 +1,14 @@
 const BASE_URL = "https://api.smkpluspnb.sch.id/api/api/v1/galeri";
 
-export const getBerita = async () => {
+export const getGaleri = async () => {
   const response = await fetch(`${BASE_URL}/show`, {
     headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
   });
-  if (!response.ok) throw new Error("Failed to fetch berita");
+  if (!response.ok) throw new Error("Failed to fetch galeri");
   return response.json();
 };
 
-export const createBerita = async (data: FormData) => {
+export const createGaleri = async (data: FormData) => {
   const response = await fetch(`${BASE_URL}/create`, {
     method: "POST",
     headers: {
@@ -19,11 +19,11 @@ export const createBerita = async (data: FormData) => {
   });
   console.log("Res: ", response);
   console.log("Data: ", data);
-  if (!response.ok) throw new Error("Failed to create berita");
+  if (!response.ok) throw new Error("Failed to create galeri");
   return response.json();
 };
 
-export const updateBerita = async ({
+export const updateGaleri = async ({
   id,
   data,
 }: {
@@ -35,16 +35,16 @@ export const updateBerita = async ({
     headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
     body: data,
   });
-  if (!response.ok) throw new Error("Failed to update berita");
+  if (!response.ok) throw new Error("Failed to update galeri");
   console.log("Res: ", response);
   return response.json();
 };
 
-export const deleteBerita = async (id: string) => {
+export const deleteGaleri = async (id: string) => {
   const response = await fetch(`${BASE_URL}/delete/${id}`, {
     method: "POST",
     headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
   });
-  if (!response.ok) throw new Error("Failed to delete berita");
+  if (!response.ok) throw new Error("Failed to delete galeri");
   return response.json();
 };

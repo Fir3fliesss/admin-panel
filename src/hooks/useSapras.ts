@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getBerita } from "../api/saprasApi";
+import { getSarana } from "../api/saprasApi";
 
-export const useGetBerita = () => {
-  return useQuery({ queryKey: ["sarana"], queryFn: getBerita });
+export const useGetSarana = () => {
+  return useQuery({ queryKey: ["sarana"], queryFn: getSarana });
 };
 
 export const useCreateSarana = () => {
@@ -36,7 +36,7 @@ export const useCreateSarana = () => {
 
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(`Failed to create berita: ${errorText}`);
+        throw new Error(`Failed to create sarana: ${errorText}`);
       }
 
       return response.json();
@@ -56,14 +56,14 @@ export const useUpdateSarana = () => {
       const response = await fetch(
         `https://api.smkpluspnb.sch.id/api/api/v1/sarana/update/${id}`,
         {
-          method: "PUT",
+          method: "POST",
           headers: {
             Authorization: `Bearer ${token}`, // Tambahkan token ke header
           },
           body: data,
         },
       );
-      if (!response.ok) throw new Error("Failed to update berita");
+      if (!response.ok) throw new Error("Failed to update sarana");
       return response.json();
     },
     onSuccess: () => {
@@ -81,13 +81,13 @@ export const useDeleteSarana = () => {
       const response = await fetch(
         `https://api.smkpluspnb.sch.id/api/api/v1/sarana/delete/${id}`,
         {
-          method: "DELETE",
+          method: "POST",
           headers: {
             Authorization: `Bearer ${token}`, // Tambahkan token ke header
           },
         },
       );
-      if (!response.ok) throw new Error("Failed to delete berita");
+      if (!response.ok) throw new Error("Failed to delete sarana");
       return response.json();
     },
     onSuccess: () => {

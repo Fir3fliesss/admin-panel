@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getBerita } from "../api/galeriApi";
+import { getGaleri } from "../api/galeriApi";
 
-export const useGetBerita = () => {
-  return useQuery({ queryKey: ["galeri"], queryFn: getBerita });
+export const useGetGaleri = () => {
+  return useQuery({ queryKey: ["galeri"], queryFn: getGaleri });
 };
 
 export const useCreateGaleri = () => {
@@ -36,13 +36,13 @@ export const useCreateGaleri = () => {
 
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(`Failed to create berita: ${errorText}`);
+        throw new Error(`Failed to create galeri: ${errorText}`);
       }
 
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["berita"] });
+      queryClient.invalidateQueries({ queryKey: ["galeri"] });
     },
   });
 };
@@ -56,14 +56,14 @@ export const useUpdateGaleri = () => {
       const response = await fetch(
         `https://api.smkpluspnb.sch.id/api/api/v1/galeri/update/${id}`,
         {
-          method: "PUT",
+          method: "POST",
           headers: {
             Authorization: `Bearer ${token}`, // Tambahkan token ke header
           },
           body: data,
         },
       );
-      if (!response.ok) throw new Error("Failed to update berita");
+      if (!response.ok) throw new Error("Failed to update galeri");
       return response.json();
     },
     onSuccess: () => {
@@ -81,13 +81,13 @@ export const useDeleteGaleri = () => {
       const response = await fetch(
         `https://api.smkpluspnb.sch.id/api/api/v1/galeri/delete/${id}`,
         {
-          method: "DELETE",
+          method: "POST",
           headers: {
             Authorization: `Bearer ${token}`, // Tambahkan token ke header
           },
         },
       );
-      if (!response.ok) throw new Error("Failed to delete berita");
+      if (!response.ok) throw new Error("Failed to delete galeri");
       return response.json();
     },
     onSuccess: () => {

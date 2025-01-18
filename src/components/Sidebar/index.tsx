@@ -161,17 +161,6 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }: Sideba
                               Mengedit Berita
                             </NavLink>
                           </li>
-                          <li>
-                            <NavLink
-                              to="/berita/delete/${id}"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              Menghapus Berita
-                            </NavLink>
-                          </li>
                         </ul>
                       </div>
                       {/* <!-- Dropdown Berita End --> */}
@@ -241,17 +230,6 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }: Sideba
                               Mengedit Galeri
                             </NavLink>
                           </li>
-                          <li>
-                            <NavLink
-                              to="/galeri/delete/${id}"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              Menghapus Galeri
-                            </NavLink>
-                          </li>
                         </ul>
                       </div>
                       {/* <!-- Dropdown Galeri End --> */}
@@ -273,7 +251,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }: Sideba
                       <NavLink
                         to="#"
                         className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-slate-200 duration-300 ease-in-out hover:bg-slate-600 dark:hover:bg-slate-600 ${
-                          (pathname === "/sarana" ||
+                          (pathname === "/sapras" ||
                             pathname.includes("sapras")) &&
                           "bg-slate-700 dark:bg-slate-700"
                         }`}
@@ -312,24 +290,13 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }: Sideba
                           </li>
                           <li>
                             <NavLink
-                              to="/sapras/update/${id}"
+                              to="/sarana/update/${id}"
                               className={({ isActive }) =>
                                 "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
                                 (isActive && "!text-white")
                               }
                             >
                               Mengedit Sapras
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/sapras/delete/${id}"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              Menghapus Sapras
                             </NavLink>
                           </li>
                         </ul>

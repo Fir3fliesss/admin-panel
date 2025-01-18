@@ -1,6 +1,6 @@
 const BASE_URL = "https://api.smkpluspnb.sch.id/api/api/v1/sarana";
 
-export const getBerita = async () => {
+export const getSarana = async () => {
   const response = await fetch(`${BASE_URL}/show`, {
     headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
   });
@@ -8,7 +8,7 @@ export const getBerita = async () => {
   return response.json();
 };
 
-export const createBerita = async (data: FormData) => {
+export const createSarana = async (data: FormData) => {
   const response = await fetch(`${BASE_URL}/create`, {
     method: "POST",
     headers: {
@@ -23,7 +23,7 @@ export const createBerita = async (data: FormData) => {
   return response.json();
 };
 
-export const updateBerita = async ({
+export const updateSarana = async ({
   id,
   data,
 }: {
@@ -40,7 +40,7 @@ export const updateBerita = async ({
   return response.json();
 };
 
-export const deleteBerita = async (id: string) => {
+export const deleteSarana = async (id: string) => {
   const response = await fetch(`${BASE_URL}/delete/${id}`, {
     method: "POST",
     headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
