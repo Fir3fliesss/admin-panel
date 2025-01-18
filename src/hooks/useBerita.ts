@@ -44,7 +44,7 @@ export const useCreateBerita = () => {
   });
 };
 
-export const useUpdateBerita = () => {
+export const useUpdateBerita = (p0?: { onSuccess: () => void; }) => {
   const queryClient = useQueryClient();
   const token = localStorage.getItem("authToken"); // Ambil token dari local storage
 
@@ -78,17 +78,18 @@ export const useDeleteBerita = () => {
       const response = await fetch(
         `https://api.smkpluspnb.sch.id/api/api/v1/berita/delete/${id}`,
         {
-          method: "DELETE",
+          method: "POST",
           headers: {
             Authorization: `Bearer ${token}`, // Tambahkan token ke header
           },
         },
       );
       if (!response.ok) throw new Error("Failed to delete berita");
+      console.log("Resp: ", response, "ID: ", id);
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["berita"] }); // Invalidate cache setelah berhasil
+      queryClient.invalidateQueries({ queryKey: ["berita"] });
     },
   });
 };

@@ -45,9 +45,8 @@ const CreateBeritaPage: React.FC = () => {
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files[0]) {
-        setFormData({ ...formData, images: e.target.files[0] });
+        displayPreview(e.target.files![0]);
       }
-      displayPreview(e.target.files![0]);
     };
 
     function displayPreview(file: File) {
