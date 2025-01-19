@@ -265,6 +265,7 @@ const CreateBeritaPage: React.FC = () => {
                 />
                 {formData.tags.length > 1 && (
                   <button
+                    title="Remove tag"
                     type="button"
                     onClick={() => removeTag(index)}
                     className="p-2 text-red-600 bg-transparent border-2 rounded-lg hover:text-red-800"
@@ -317,6 +318,7 @@ const CreateBeritaPage: React.FC = () => {
               src=""
               className="mt-4 mx-auto max-h-full hidden"
               id="preview"
+              alt="Preview"
             ></img>
           </div>
         </div>

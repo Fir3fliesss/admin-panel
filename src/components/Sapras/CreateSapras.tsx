@@ -2,20 +2,20 @@ import React, { useState } from "react";
 import { useCreateSarana } from "../../hooks/useSapras";
 
 const CreateSarana = () => {
-  const [images, setImages] = useState<string[]>([]);
+  const [image, setImages] = useState<string[]>([]);
   const [titles, setTitles] = useState<string[]>([]);
   const { mutate, isPending } = useCreateSarana();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    mutate({ images, titles });
+    mutate({ image, titles });
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <input
         type="text"
-        value={images.join(",")}
+        value={image.join(",")}
         onChange={(e) => setImages(e.target.value.split(","))}
         placeholder="Images (comma separated)"
         required
