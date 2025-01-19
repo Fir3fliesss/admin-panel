@@ -155,6 +155,8 @@ const UpdateBeritaPage = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const selectedNewsData = sessionStorage.getItem("selectedNews");
+    let newsData = JSON.parse(selectedNewsData!);
 
     try {
       const formDataToSend = new FormData();
@@ -164,8 +166,10 @@ const UpdateBeritaPage = () => {
       formDataToSend.append("subtitle", formData.subtitle);
       formDataToSend.append("description", formData.description);
 
-      if (formData.images) {
-        formDataToSend.append("images", formData.images)
+      if (formData.images && formData.images !== newsData.images) {
+        formDataToSend.append("images", formData.images);
+      } else {
+        formDataToSend.append("images", "");
       }
 
       formData.tags.forEach((tag) => {
@@ -174,7 +178,9 @@ const UpdateBeritaPage = () => {
 
       if (formData.berita_id) {
         updateBerita({ id: formData.berita_id, data: formDataToSend });
-        handleCancel();
+        if (isSuccess) {
+          handleCancel();
+        }
         console.log("FormData to send:", [...formDataToSend.entries()]);
       }
     } catch (error) {
@@ -218,6 +224,32 @@ const UpdateBeritaPage = () => {
     }
   };
 
+  const saveToDraft = () => {
+    sessionStorage.setItem("draft", JSON.stringify(formData));
+    alert("Saved to draft");
+  };
+
+  const loadDraft = () => {
+    const draftData = sessionStorage.getItem("draft");
+    if (draftData) {
+      const draft = JSON.parse(draftData);
+      setFormData(draft);
+
+      const preview = document.getElementById(
+        "preview",
+      ) as HTMLImageElement | null;
+      if (preview) {
+        if (typeof draft.images === "string" && draft.images) {
+          preview.src = `https://api.smkpluspnb.sch.id/storage/${draft.images}`;
+          preview.classList.remove("hidden");
+        } else {
+          preview.src = "";
+          preview.classList.add("hidden");
+        }
+      }
+    }
+  };
+
   return (
     <div className="p-4" ref={parent}>
       <ListBerita />
@@ -236,7 +268,7 @@ const UpdateBeritaPage = () => {
         </div>
       )}
 
-      {sessionStorage.getItem("selectedNews") && (
+      {formData.title && (
         <button
           onClick={handleCancel}
           className="flex mb-4 items-center px-4 py-2 text-gray-600 hover:text-gray-800 bg-transparent border border-gray-300 rounded-lg hover:bg-gray-50"
@@ -354,7 +386,9 @@ const UpdateBeritaPage = () => {
                 </label>
                 <p className="pl-1">or drag and drop</p>
               </div>
-              <p className="text-xs text-gray-500">PNG, JPEG, JPG, WEBP up to XXMB</p>
+              <p className="text-xs text-gray-500">
+                PNG, JPEG, JPG, WEBP up to XXMB
+              </p>
             </div>
 
             <img
@@ -378,11 +412,23 @@ const UpdateBeritaPage = () => {
         <button
           type="submit"
           disabled={isPending}
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg disabled:bg-gray-400"
+          className=" mr-1 px-4 py-2 bg-blue-500 text-white rounded-lg disabled:bg-gray-400"
         >
           {isPending ? "Loading..." : "Update this news"}{" "}
         </button>
       </form>
+      <button
+        onClick={saveToDraft}
+        className=" mt-2 mr-1 px-4 py-2 border border-blue-500  rounded-lg  hover:bg-blue-500 hover:text-white transition-colors "
+      >
+        Save to Draft
+      </button>
+      <button
+        onClick={loadDraft}
+        className=" mt-2 ml-1 px-4 py-2 border border-blue-500  rounded-lg  hover:bg-blue-500 hover:text-white transition-colors "
+      >
+        Load Draft
+      </button>
     </div>
   );
 };
