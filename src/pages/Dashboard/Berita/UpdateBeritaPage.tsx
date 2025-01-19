@@ -155,6 +155,8 @@ const UpdateBeritaPage = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const selectedNewsData = sessionStorage.getItem("selectedNews");
+    let newsData = JSON.parse(selectedNewsData!);
 
     try {
       const formDataToSend = new FormData();
@@ -164,8 +166,10 @@ const UpdateBeritaPage = () => {
       formDataToSend.append("subtitle", formData.subtitle);
       formDataToSend.append("description", formData.description);
 
-      if (formData.images) {
-        formDataToSend.append("images", formData.images)
+      if (formData.images && formData.images !== newsData.images) {
+        formDataToSend.append("images", formData.images);
+      } else {
+        formDataToSend.append("images", "");
       }
 
       formData.tags.forEach((tag) => {
@@ -174,7 +178,9 @@ const UpdateBeritaPage = () => {
 
       if (formData.berita_id) {
         updateBerita({ id: formData.berita_id, data: formDataToSend });
-        handleCancel();
+        if (isSuccess) {
+          handleCancel();
+        }
         console.log("FormData to send:", [...formDataToSend.entries()]);
       }
     } catch (error) {
