@@ -1,6 +1,5 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
-import { useGetBerita, useUpdateBerita } from "../../../hooks/useBerita";
-import { useParams } from "react-router-dom";
+import { useUpdateBerita } from "../../../hooks/useBerita";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import ListBerita from "../../../components/Berita/ListBerita";
 import {
@@ -12,38 +11,54 @@ import {
   Subtitles,
   FileText,
   Newspaper,
-  List,
+  ArrowLeft,
 } from "lucide-react";
 
-const BASE_URL = "https://api.smkpluspnb.sch.id/api/api/v1/berita/show";
-
-interface Berita {
-  id: string;
-  title: string;
-  subtitle: string;
-  description: string;
-  images: string; // URL gambar
-  tags: string[];
-}
+//? I have work on this file for hours, and the image update is still not working.
+//? Wasted hours for this file = 20
+//! Update the counter for the hours you waste
 
 const UpdateBeritaPage = () => {
   const [parent] = useAutoAnimate();
-  const { id } = useParams<{ id: string }>();
-  const { data: beritaList } = useGetBerita();
+
   const {
     mutate: updateBerita,
     isSuccess,
     isError,
     isPending,
   } = useUpdateBerita();
-  
+
   const [formData, setFormData] = useState({
+    berita_id: "",
+    author: "",
     title: "",
     subtitle: "",
     description: "",
     images: null as File | null,
     tags: [""],
   });
+
+  useEffect(() => {
+    const selectedNewsData = sessionStorage.getItem("selectedNews");
+    if (selectedNewsData) {
+      const newsData = JSON.parse(selectedNewsData);
+      setFormData({
+        berita_id: newsData.berita_id,
+        author: newsData.author,
+        title: newsData.title,
+        subtitle: newsData.subtitle,
+        description: newsData.description,
+        images: newsData.images,
+        tags: newsData.tags,
+      });
+
+      const preview = document.getElementById("preview") as HTMLImageElement;
+      if (preview) {
+        preview.src = `https://api.smkpluspnb.sch.id/storage/${newsData.images}`;
+        preview.classList.remove("hidden");
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const dropzone = document.getElementById("dropzone");
@@ -109,21 +124,6 @@ const UpdateBeritaPage = () => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   if (beritaList) {
-  //     const selectedBerita = beritaList.data.find((b: Berita) => b.id === id);
-  //     if (selectedBerita) {
-  //       setFormData({
-  //         title: selectedBerita.title,
-  //         subtitle: selectedBerita.subtitle,
-  //         description: selectedBerita.description,
-  //         tags: selectedBerita.tags,
-  //         images: null, // Tetap null karena kita akan mengunggah file baru
-  //       });
-  //     }
-  //   }
-  // }, [beritaList, id]);
-
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     field: keyof typeof formData,
@@ -149,30 +149,77 @@ const UpdateBeritaPage = () => {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFormData({ ...formData, images: e.target.files[0] }); // Simpan file yang dipilih
+      setFormData({ ...formData, images: e.target.files[0] });
     }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Buat FormData untuk mengirim file
-    const formDataToSend = new FormData();
-    formDataToSend.append("title", formData.title);
-    formDataToSend.append("subtitle", formData.subtitle);
-    formDataToSend.append("description", formData.description);
-    if (formData.images) {
-      formDataToSend.append("images", formData.images); // Tambahkan file gambar
-    }
-    formDataToSend.append("tags", formData.tags.join(","));
+    try {
+      const formDataToSend = new FormData();
 
-    if (id) {
-      updateBerita({ id, data: formDataToSend });
+      formDataToSend.append("author", formData.author);
+      formDataToSend.append("title", formData.title);
+      formDataToSend.append("subtitle", formData.subtitle);
+      formDataToSend.append("description", formData.description);
+
+      if (formData.images) {
+        formDataToSend.append("images", formData.images)
+      }
+
+      formData.tags.forEach((tag) => {
+        formDataToSend.append("tags[]", tag);
+      });
+
+      if (formData.berita_id) {
+        updateBerita({ id: formData.berita_id, data: formDataToSend });
+        handleCancel();
+        console.log("FormData to send:", [...formDataToSend.entries()]);
+      }
+    } catch (error) {
+      console.error("Error updating berita:", error);
+      alert(
+        `Error updating berita: ${error instanceof Error ? error.message : "Unknown error"}`,
+      );
+    }
+  };
+
+  //? Cancel Edit
+  const handleCancel = () => {
+    sessionStorage.removeItem("selectedNews");
+    console.log("Cleared selected news data");
+
+    setFormData({
+      berita_id: "",
+      author: "",
+      title: "",
+      subtitle: "",
+      description: "",
+      images: null,
+      tags: [""],
+    });
+
+    const preview = document.getElementById(
+      "preview",
+    ) as HTMLImageElement | null;
+    preview?.src && (preview.src = "");
+  };
+
+  const handleClearImage = () => {
+    setFormData({
+      ...formData,
+      images: null,
+    });
+    const preview = document.getElementById("preview") as HTMLImageElement;
+    if (preview) {
+      preview.src = "";
+      preview.classList.add("hidden");
     }
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4" ref={parent}>
       <ListBerita />
       <h1 className="text-2xl font-bold mb-4 flex items-center gap-2">
         <Newspaper className="w-6 h-6" />
@@ -189,25 +236,17 @@ const UpdateBeritaPage = () => {
         </div>
       )}
 
-      {/* <section>
-        <h2 className="text-lg font-semibold mb-2">Current Berita</h2>
-        {beritaList.data.map((berita: Berita) => (
-          <div key={berita.id} className="p-4 border border-gray-200 mb-4">
-            <h3 className="text-lg font-semibold">{berita.title}</h3>
-            <p className="text-sm text-gray-500">{berita.subtitle}</p>
-            <p className="text-sm text-gray-500">{berita.description}</p>
-            <p className="text-sm text-gray-500">{berita.tags.join(", ")}</p>
-            <img
-              src={berita.images}
-              alt={berita.title}
-              className="w-32 h-32 object-cover mt-2"
-            />
-          </div>
-        ))}
-      </section> */}
+      {sessionStorage.getItem("selectedNews") && (
+        <button
+          onClick={handleCancel}
+          className="flex mb-4 items-center px-4 py-2 text-gray-600 hover:text-gray-800 bg-transparent border border-gray-300 rounded-lg hover:bg-gray-50"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Cancel
+        </button>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Input untuk Title */}
         <div className="space-y-2">
           <label className="flex items-center text-sm font-medium text-gray-700">
             <Type className="w-4 h-4 mr-2" />
@@ -222,7 +261,6 @@ const UpdateBeritaPage = () => {
           />
         </div>
 
-        {/* Input untuk Subtitle */}
         <div>
           <label className="flex items-center text-sm font-medium text-gray-700">
             <Subtitles className="w-4 h-4 mr-2" />
@@ -239,7 +277,6 @@ const UpdateBeritaPage = () => {
           />
         </div>
 
-        {/* Input untuk Description */}
         <div>
           <label className="flex items-center text-sm font-medium text-gray-700">
             <FileText className="w-4 h-4 mr-2" />
@@ -260,7 +297,7 @@ const UpdateBeritaPage = () => {
             <Tag className="w-4 h-4 mr-2" />
             Tags
           </label>
-          <div className="space-y-2" ref={parent}>
+          <div className="space-y-2">
             {formData.tags.map((tag, index) => (
               <div key={index} className="flex items-center space-x-2">
                 <input
@@ -292,7 +329,6 @@ const UpdateBeritaPage = () => {
           </div>
         </div>
 
-        {/* Input untuk Images (File Upload) */}
         <div className="space-y-2">
           <label className="flex items-center text-sm font-medium text-gray-700">
             <ImagePlus className="w-4 h-4 mr-2" />
@@ -317,25 +353,32 @@ const UpdateBeritaPage = () => {
                 </label>
                 <p className="pl-1">or drag and drop</p>
               </div>
-              <p className="text-xs text-gray-500">PNG, JPG, GIF up to XXMB</p>
+              <p className="text-xs text-gray-500">PNG, JPEG, JPG, WEBP up to XXMB</p>
             </div>
 
             <img
               src=""
               className="mt-4 mx-auto max-h-full hidden"
               id="preview"
-            ></img>
+            />
+            {formData.images && (
+              <button
+                type="button"
+                onClick={handleClearImage}
+                className="mt-2 px-3 py-1 text-sm text-red-600 border border-red-600 rounded-md hover:bg-red-50"
+              >
+                Clear Image
+              </button>
+            )}
           </div>
         </div>
 
-        {/* Tombol Submit */}
         <button
           type="submit"
-          disabled={isPending} // Ganti isLoading dengan isPending
+          disabled={isPending}
           className="px-4 py-2 bg-blue-500 text-white rounded-lg disabled:bg-gray-400"
         >
-          {isPending ? "Loading..." : "Create"}{" "}
-          {/* Ganti isLoading dengan isPending */}
+          {isPending ? "Loading..." : "Update this news"}{" "}
         </button>
       </form>
     </div>
