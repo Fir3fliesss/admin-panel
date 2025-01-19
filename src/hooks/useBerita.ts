@@ -21,9 +21,6 @@ export const useCreateBerita = () => {
             // "Content-Type": "application/json",
           },
           body: formData,
-          // mode: "cors",
-          // credentials: 'include',
-          // redirect: 'follow',
         },
       );
 
@@ -46,32 +43,35 @@ export const useCreateBerita = () => {
   });
 };
 
-export const useUpdateBerita = (p0?: { onSuccess: () => void; }) => {
+export const useUpdateBerita = () => {
   const queryClient = useQueryClient();
-  const token = localStorage.getItem("authToken"); // Ambil token dari local storage
+  const token = localStorage.getItem("authToken");
 
   return useMutation({
     mutationFn: async ({ id, data }: { id: string; data: FormData }) => {
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/api/v1/berita/update/${id}`,
+        `https://api.smkpluspnb.sch.id/api/api/v1/berita/update/${id}`,
         {
-          method: "PUT",
+          method: "POST",
           headers: {
-            Authorization: `Bearer ${token}`, // Tambahkan token ke header
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
           },
           body: data,
         },
       );
+      console.log("Resp: ", response, "ID: ", id, "Token: ", token);
+      console.log("Data: ", data);
       if (!response.ok) throw new Error("Failed to update berita");
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["berita"] }); // Invalidate cache setelah berhasil
+      queryClient.invalidateQueries({ queryKey: ["berita"] });
     },
   });
 };
 
-export const useDeleteBerita = () => {
+export const useDeleteBerita = (p0?: { onSuccess: () => void; }) => {
   const queryClient = useQueryClient();
   const token = localStorage.getItem("authToken"); // Ambil token dari local storage
 

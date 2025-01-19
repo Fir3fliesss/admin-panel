@@ -2,28 +2,32 @@
 import { useGetBerita, useDeleteBerita } from "@/hooks/useBerita";
 import { Pencil, Trash2 } from "lucide-react";
 
-export default function ListBerita() {
-  interface News {
-    id: string;
-    berita_id: string;
-    author: string;
-    title: string;
-    subtitle: string;
-    description: string;
-    tags: string[];
-    images: string;
-  }
+interface News {
+  id: string;
+  berita_id: string;
+  author: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  tags: string[];
+  images: string;
+}
 
+export default function ListBerita() {
   const { data, isPending } = useGetBerita();
   const { mutate: deleteBerita } = useDeleteBerita();
 
   if (isPending) return <p>Loading...</p>;
   if (!data) return <p>No news found</p>;
-  console.log("News: ", data.data);
 
   const handleDelete = (id: string) => {
     console.log("Deleting berita with id:", id);
     deleteBerita(id);
+  };
+
+  const handleEdit = (news: News) => {
+    sessionStorage.setItem("selectedNews", JSON.stringify(news));
+    window.location.reload();
   };
 
   return (
@@ -36,7 +40,7 @@ export default function ListBerita() {
           <div className="flex items-center space-x-4">
             <div className="relative w-20 overflow-hidden rounded">
               <img
-                src={"https://api.smkpluspnb.sch.id/storage/" + news.images}
+                src={`https://api.smkpluspnb.sch.id/storage/${news.images}`}
                 alt={`${news.title} cover`}
                 className="object-cover h-full w-full"
               />
@@ -48,9 +52,9 @@ export default function ListBerita() {
           </div>
           <div className="flex space-x-2">
             <div
-
-             className="h-8 w-8 flex justify-center items-center rounded text-zinc-400 hover:text-white hover:bg-zinc-700"
-             >
+              onClick={() => handleEdit(news)}
+              className="h-8 w-8 flex justify-center items-center rounded text-zinc-400 hover:text-white hover:bg-zinc-700 cursor-pointer"
+            >
               <Pencil className="h-4 w-4" />
               <span className="sr-only">Edit</span>
             </div>

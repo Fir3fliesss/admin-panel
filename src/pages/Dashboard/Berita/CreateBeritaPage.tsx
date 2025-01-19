@@ -153,12 +153,28 @@ const CreateBeritaPage: React.FC = () => {
       }
 
       createBerita(formDataToSend);
+      clearNews();
     } catch (error) {
       console.error("Error creating berita:", error);
       alert(
         `Error creating berita: ${error instanceof Error ? error.message : "Unknown error"}`,
       );
     }
+  };
+
+  const clearNews = () => {
+    setFormData({
+      title: "",
+      subtitle: "",
+      description: "",
+      images: null,
+      tags: [""],
+    });
+
+    const preview = document.getElementById(
+      "preview",
+    ) as HTMLImageElement | null;
+    preview?.src && (preview.src = "");
   };
 
   return (
