@@ -177,10 +177,36 @@ const CreateBeritaPage: React.FC = () => {
     preview?.src && (preview.src = "");
   };
 
+  const saveToDraft = () => {
+    sessionStorage.setItem("draft", JSON.stringify(formData));
+    alert("Saved to draft");
+  };
+
+  const loadDraft = () => {
+    const draftData = sessionStorage.getItem("draft");
+    if (draftData) {
+      const draft = JSON.parse(draftData);
+      setFormData(draft);
+
+      const preview = document.getElementById(
+        "preview",
+      ) as HTMLImageElement | null;
+      if (preview) {
+        if (typeof draft.images === "string" && draft.images) {
+          preview.src = `https://api.smkpluspnb.sch.id/storage/${draft.images}`;
+          preview.classList.remove("hidden");
+        } else {
+          preview.src = "";
+          preview.classList.add("hidden");
+        }
+      }
+    }
+  };
+
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4 flex items-center gap-2">
-        <Newspaper className="w-6 h-6"/>
+        <Newspaper className="w-6 h-6" />
         Create News
       </h1>
 
@@ -331,6 +357,18 @@ const CreateBeritaPage: React.FC = () => {
           {/* Ganti isLoading dengan isPending */}
         </button>
       </form>
+      <button
+        onClick={saveToDraft}
+        className=" mt-2 mr-1 px-4 py-2 border border-blue-500  rounded-lg  hover:bg-blue-500 hover:text-white transition-colors "
+      >
+        Save to Draft
+      </button>
+      <button
+        onClick={loadDraft}
+        className=" mt-2 ml-1 px-4 py-2 border border-blue-500  rounded-lg  hover:bg-blue-500 hover:text-white transition-colors "
+      >
+        Load Draft
+      </button>
     </div>
   );
 };
