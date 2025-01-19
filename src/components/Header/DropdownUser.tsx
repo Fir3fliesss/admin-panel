@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { ChevronDownIcon, LogOutIcon, UserIcon } from "lucide-react";
 
-const DropdownUser = () => {
+const DropdownUser:React.FC = () => {
+  var username = window.localStorage.getItem("authName");
   const [dropdownUserOpen, setDropdownUserOpen] = useState(false);
 
   const trigger = useRef<any>(null);
@@ -24,7 +25,6 @@ const DropdownUser = () => {
     return () => document.removeEventListener("click", clickHandler);
   });
 
-  // close if the esc key is pressed
   useEffect(() => {
     const keyHandler = ({ keyCode }: KeyboardEvent) => {
       if (!dropdownUserOpen || keyCode !== 27) return;
@@ -44,20 +44,20 @@ const DropdownUser = () => {
           to="#"
         >
           <div className="hidden text-right lg:block">
-          <span className="block text-sm font-medium text-black dark:text-white">
-            {/* Username Admin */}
-            Gherlady Ganteng
-          </span>
-            <span className="block text-xs">Amin</span>
+            <span className="block text-sm font-medium text-black dark:text-white">
+              {username} ganteng
+            </span>
+            <span className="block text-xs">Admin</span>
           </div>
 
           <div className="flex items-center space-x-1">
             <div className="flex items-center p-2.5 bg-slate-100 dark:bg-slate-800 rounded-full">
               <UserIcon size={24} />
             </div>
-            <ChevronDownIcon size={24} className={` ${
-              dropdownUserOpen && "rotate-180"
-            }`} />
+            <ChevronDownIcon
+              size={24}
+              className={` ${dropdownUserOpen && "rotate-180"}`}
+            />
           </div>
         </Link>
 
@@ -70,11 +70,13 @@ const DropdownUser = () => {
             dropdownUserOpen ? "block" : "hidden"
           }`}
         >
-          <button
-            className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
-            <LogOutIcon size={24} />
-            Log Out
-          </button>
+          <NavLink
+            to="/">
+            <button className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+              <LogOutIcon size={24} />
+              Log Out
+            </button>
+          </NavLink>
         </div>
         {/* <!-- Dropdown End --> */}
       </div>

@@ -13,7 +13,7 @@ interface SidebarProps {
   setSidebarOpen: (arg: boolean) => void;
 }
 
-const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
+const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const location = useLocation();
   const { pathname } = location;
 
@@ -71,7 +71,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 pt-5.5 lg:pt-6.5">
         <NavLink
-          to="/"
+          to="/welcome"
           className="flex space-x-4 items-center text-white text-xl font-bold"
         >
           <img src="/images/favicon.webp" className="w-11" alt="Logo" />
@@ -82,7 +82,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           ref={trigger}
           onClick={() => setSidebarOpen(!sidebarOpen)}
           aria-controls="sidebar"
-          aria-expanded={sidebarOpen}
+          // aria-expanded={sidebarOpen}
           className="block lg:hidden text-white"
           aria-label="Open sidebar"
         >
@@ -161,17 +161,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                               Mengedit Berita
                             </NavLink>
                           </li>
-                          <li>
-                            <NavLink
-                              to="/berita/delete/${id}"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              Menghapus Berita
-                            </NavLink>
-                          </li>
                         </ul>
                       </div>
                       {/* <!-- Dropdown Berita End --> */}
@@ -221,7 +210,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
                           <li>
                             <NavLink
-                              to="/galeri"
+                              to="/galeri/create"
                               className={({ isActive }) =>
                                 "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
                                 (isActive && "!text-white")
@@ -239,17 +228,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                               }
                             >
                               Mengedit Galeri
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/galeri/delete/${id}"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              Menghapus Galeri
                             </NavLink>
                           </li>
                         </ul>
@@ -301,7 +279,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
                           <li>
                             <NavLink
-                              to="/sapras/create"
+                              to="/sarana/create"
                               className={({ isActive }) =>
                                 "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
                                 (isActive && "!text-white")
@@ -312,24 +290,13 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           </li>
                           <li>
                             <NavLink
-                              to="/sapras/update/${id}"
+                              to="/sarana/update/${id}"
                               className={({ isActive }) =>
                                 "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
                                 (isActive && "!text-white")
                               }
                             >
                               Mengedit Sapras
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              to="/sapras/delete/${id}"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-slate-400 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              Menghapus Sapras
                             </NavLink>
                           </li>
                         </ul>
@@ -395,7 +362,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 (isActive && "!text-white")
                               }
                             >
-                              Sign In
+                              Log Out
                             </NavLink>
                           </li>
                         </ul>
