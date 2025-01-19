@@ -26,6 +26,11 @@ export default function ListGaleri() {
     deleteGaleri(id);
   };
 
+    const handleEdit = (galeri: Galeri) => {
+      sessionStorage.setItem("selectedGaleri", JSON.stringify(galeri));
+      window.location.reload();
+    };
+
   return (
     <div className="mx-auto mb-16">
       {galeriArray.map((galeri: Galeri) => (
@@ -46,7 +51,9 @@ export default function ListGaleri() {
             </div>
           </div>
           <div className="flex space-x-2">
-            <div className="h-8 w-8 flex justify-center items-center rounded text-zinc-400 hover:text-white hover:bg-zinc-700">
+            <div className="h-8 w-8 flex justify-center items-center rounded text-zinc-400 hover:text-white hover:bg-zinc-700"
+              onClick={() => handleEdit(galeri)}
+            >
               <Pencil className="h-4 w-4" />
               <span className="sr-only">Edit</span>
             </div>

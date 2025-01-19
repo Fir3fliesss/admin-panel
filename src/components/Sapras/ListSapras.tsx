@@ -22,6 +22,11 @@ export default function ListSapras() {
     deleteSapras(id);
   };
 
+  const handleEdit = (sapras: Sapras) => {
+    sessionStorage.setItem("selectedSarana", JSON.stringify(sapras));
+    window.location.reload();
+  };
+
   return (
     <div className="mx-auto mb-16">
       {data.data.map((sarana: Sapras) => (
@@ -42,7 +47,9 @@ export default function ListSapras() {
             </div>
           </div>
           <div className="flex space-x-2">
-            <div className="h-8 w-8 flex justify-center items-center rounded text-zinc-400 hover:text-white hover:bg-zinc-700">
+            <div className="h-8 w-8 flex justify-center items-center rounded text-zinc-400 hover:text-white hover:bg-zinc-700"
+              onClick={() => handleEdit(sarana)}
+            >
               <Pencil className="h-4 w-4" />
               <span className="sr-only">Edit</span>
             </div>

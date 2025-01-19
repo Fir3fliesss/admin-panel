@@ -9,7 +9,7 @@ const BASE_URL = "https://api.smkpluspnb.sch.id/api/api/v1/sarana/show";
 
 interface Sarana {
   title: string[];
-  images: string; // URL gambar
+  image: string; // URL gambar
   sarana_id: string;
 }
 
@@ -24,9 +24,22 @@ const UpdateSaprasPage = () => {
   } = useUpdateSarana();
 
   const [formData, setFormData] = useState({
+    sarana_id: "",
     title: "",
-    images: null as File | null,
+    image: null as File | null,
   });
+
+  const handleClearImage = () => {
+    setFormData({
+      ...formData,
+      image: null,
+    });
+    const preview = document.getElementById("preview") as HTMLImageElement;
+    if (preview) {
+      preview.src = "";
+      preview.classList.add("hidden");
+    }
+  };
 
   useEffect(() => {
     const dropzone = document.getElementById("dropzone");
@@ -92,20 +105,23 @@ const UpdateSaprasPage = () => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   if (beritaList) {
-  //     const selectedBerita = beritaList.data.find((b: Berita) => b.id === id);
-  //     if (selectedBerita) {
-  //       setFormData({
-  //         title: selectedBerita.title,
-  //         subtitle: selectedBerita.subtitle,
-  //         description: selectedBerita.description,
-  //         tags: selectedBerita.tags,
-  //         images: null, // Tetap null karena kita akan mengunggah file baru
-  //       });
-  //     }
-  //   }
-  // }, [beritaList, id]);
+  useEffect(() => {
+    const selectedSaranaData = sessionStorage.getItem("selectedSarana");
+    if (selectedSaranaData) {
+      const saranaData = JSON.parse(selectedSaranaData);
+      setFormData({
+        sarana_id: saranaData.sarana_id,
+        title: saranaData.title,
+        image: saranaData.image,
+      });
+      console.log(selectedSaranaData);
+      const preview = document.getElementById("preview") as HTMLImageElement;
+      if (preview) {
+        preview.src = `https://api.smkpluspnb.sch.id/storage/${saranaData.image}`;
+        preview.classList.remove("hidden");
+      }
+    }
+  }, []);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -117,22 +133,33 @@ const UpdateSaprasPage = () => {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFormData({ ...formData, images: e.target.files[0] }); // Simpan file yang dipilih
+      setFormData({ ...formData, image: e.target.files[0] }); // Simpan file yang dipilih
     }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const selectedNewsData = sessionStorage.getItem("selectedSarana");
+    let saranaData = JSON.parse(selectedNewsData!);
 
-    // Buat FormData untuk mengirim file
-    const formDataToSend = new FormData();
-    formDataToSend.append("title", formData.title);
-    if (formData.images) {
-      formDataToSend.append("image", formData.images); // Tambahkan file gambar
-    }
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append("title", formData.title);
+      if (formData.image && formData.image !== saranaData.image) {
+        formDataToSend.append("image", formData.image);
+      }
+      else{
+        formDataToSend.append("image", "");
+      }
 
-    if (id) {
-      updateSarana({ id, data: formDataToSend });
+      if (formData) {
+        updateSarana({ id: formData.sarana_id, data: formDataToSend });
+      }
+    } catch (error) {
+      console.error("Error updating sarana:", error);
+      alert(
+        `Error updating sarana: ${error instanceof Error ? error.message : "Unknown error"}`,
+      );
     }
   };
 
@@ -154,23 +181,6 @@ const UpdateSaprasPage = () => {
         </div>
       )}
 
-      {/* <section>
-        <h2 className="text-lg font-semibold mb-2">Current Berita</h2>
-        {beritaList.data.map((berita: Berita) => (
-          <div key={berita.id} className="p-4 border border-gray-200 mb-4">
-            <h3 className="text-lg font-semibold">{berita.title}</h3>
-            <p className="text-sm text-gray-500">{berita.subtitle}</p>
-            <p className="text-sm text-gray-500">{berita.description}</p>
-            <p className="text-sm text-gray-500">{berita.tags.join(", ")}</p>
-            <img
-              src={berita.images}
-              alt={berita.title}
-              className="w-32 h-32 object-cover mt-2"
-            />
-          </div>
-        ))}
-      </section> */}
-
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Input untuk Title */}
         <div className="space-y-2">
@@ -187,7 +197,7 @@ const UpdateSaprasPage = () => {
           />
         </div>
 
-        {/* Input untuk Images (File Upload) */}
+        {/* Input untuk image (File Upload) */}
         <div className="space-y-2">
           <label className="flex items-center text-sm font-medium text-gray-700">
             <ImagePlus className="w-4 h-4 mr-2" />
@@ -204,7 +214,7 @@ const UpdateSaprasPage = () => {
                   <input
                     type="file"
                     id="file-upload"
-                    name="images"
+                    name="image"
                     className="sr-only"
                     onChange={handleFileChange}
                     accept="image/*"
@@ -220,7 +230,16 @@ const UpdateSaprasPage = () => {
               src=""
               className="mt-4 mx-auto max-h-full hidden"
               id="preview"
-            ></img>
+            />
+            {formData.image && (
+              <button
+                type="button"
+                onClick={handleClearImage}
+                className="mt-2 px-3 py-1 text-sm text-red-600 border border-red-600 rounded-md hover:bg-red-50"
+              >
+                Clear Image
+              </button>
+            )}
           </div>
         </div>
 

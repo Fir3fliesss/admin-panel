@@ -1,25 +1,26 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
-import { useGetGaleri, useUpdateGaleri } from "../../../hooks/useGaleri";
-import { useParams } from "react-router-dom";
+import { useGetGaleri ,useUpdateGaleri } from "../../../hooks/useGaleri";
+// import { useParams } from "react-router-dom";
 import ListGaleri from "../../../components/Galeri/ListGaleri";
 import {
   ImagePlus,
   Type,
   Newspaper,
+  ArrowLeft
 } from "lucide-react";
-import { updateGaleri } from "@/api/galeriApi";
+// import { updateGaleri } from "@/api/galeriApi";
 
-const BASE_URL = "https://api.smkpluspnb.sch.id/api/api/v1/galeri/show";
+// const BASE_URL = "https://api.smkpluspnb.sch.id/api/api/v1/galeri/show";
 
-interface Galeri {
-  title: string[];
-  images: string; // URL gambar
-  galeri_id: string;
-}
+// interface Galeri {
+//   title: string[];
+//   image: string; // URL gambar
+//   galeri_id: string;
+// }
 
 const UpdateGaleriPage = () => {
-  const { id } = useParams<{ id: string }>();
-  const { data: galeriList } = useGetGaleri();
+  // const { id } = useParams<{ id: string }>();
+  // const { data: galeriList } = useGetGaleri();
   const {
     mutate: updateGaleri,
     isSuccess,
@@ -28,9 +29,22 @@ const UpdateGaleriPage = () => {
   } = useUpdateGaleri();
 
   const [formData, setFormData] = useState({
+    galeri_id: "",
     title: "",
-    images: null as File | null,
+    image: null as File | null ,
   });
+
+    const handleClearImage = () => {
+      setFormData({
+        ...formData,
+        image: null,
+      });
+      const preview = document.getElementById("preview") as HTMLImageElement;
+      if (preview) {
+        preview.src = "";
+        preview.classList.add("hidden");
+      }
+    };
 
   useEffect(() => {
     const dropzone = document.getElementById("dropzone");
@@ -96,20 +110,23 @@ const UpdateGaleriPage = () => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   if (beritaList) {
-  //     const selectedBerita = beritaList.data.find((b: Berita) => b.id === id);
-  //     if (selectedBerita) {
-  //       setFormData({
-  //         title: selectedBerita.title,
-  //         subtitle: selectedBerita.subtitle,
-  //         description: selectedBerita.description,
-  //         tags: selectedBerita.tags,
-  //         images: null, // Tetap null karena kita akan mengunggah file baru
-  //       });
-  //     }
-  //   }
-  // }, [beritaList, id]);
+  useEffect(() => {
+    const selectedGaleriData = sessionStorage.getItem("selectedGaleri");
+    if (selectedGaleriData) {
+      const galeriData = JSON.parse(selectedGaleriData);
+      setFormData({
+        galeri_id: galeriData.galeri_id,
+        title: galeriData.title,
+        image: galeriData.image,
+      });
+      console.log(selectedGaleriData)
+      const preview = document.getElementById("preview") as HTMLImageElement;
+      if (preview) {
+        preview.src = `https://api.smkpluspnb.sch.id/storage/${galeriData.image}`;
+        preview.classList.remove("hidden");
+      }
+    }
+  }, []);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -121,25 +138,47 @@ const UpdateGaleriPage = () => {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFormData({ ...formData, images: e.target.files[0] }); // Simpan file yang dipilih
+      setFormData({ ...formData, image: e.target.files[0] });
     }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const selectedNewsData = sessionStorage.getItem("selectedGaleri");
+    let galeriData = JSON.parse(selectedNewsData!);
 
-    // Buat FormData untuk mengirim file
+    try {
     const formDataToSend = new FormData();
     formDataToSend.append("title", formData.title);
-    if (formData.images) {
-      formDataToSend.append("images", formData.images); // Tambahkan file gambar
+    if (formData.image && formData.image !== galeriData.image) {
+        formDataToSend.append("image", formData.image);
+      } else {
+        formDataToSend.append("image", "");
+      }
+    if (formData.galeri_id) {
+      updateGaleri({ id: formData.galeri_id, data: formDataToSend });
+      if (isSuccess) {
+        handleCancel()
+      }
     }
-
-    if (id) {
-      updateGaleri({ id, data: formDataToSend });
+    } catch (error) {
+            console.error("Error updating galeri:", error);
+      alert(
+        `Error updating galeri: ${error instanceof Error ? error.message : "Unknown error"}`,
+      );
     }
   };
 
+  const handleCancel = () => {
+    sessionStorage.removeItem("selectedGaleri");
+    console.log("Cleared selected galeri data");
+
+    setFormData({
+      galeri_id: "",
+      title: "",
+      image: null,
+    });
+  }
   return (
     <div className="p-4">
       <ListGaleri />
@@ -158,22 +197,15 @@ const UpdateGaleriPage = () => {
         </div>
       )}
 
-      {/* <section>
-        <h2 className="text-lg font-semibold mb-2">Current Berita</h2>
-        {beritaList.data.map((berita: Berita) => (
-          <div key={berita.id} className="p-4 border border-gray-200 mb-4">
-            <h3 className="text-lg font-semibold">{berita.title}</h3>
-            <p className="text-sm text-gray-500">{berita.subtitle}</p>
-            <p className="text-sm text-gray-500">{berita.description}</p>
-            <p className="text-sm text-gray-500">{berita.tags.join(", ")}</p>
-            <img
-              src={berita.images}
-              alt={berita.title}
-              className="w-32 h-32 object-cover mt-2"
-            />
-          </div>
-        ))}
-      </section> */}
+      {formData.title && (
+        <button
+          onClick={handleCancel}
+          className="flex mb-4 items-center px-4 py-2 text-gray-600 hover:text-gray-800 bg-transparent border border-gray-300 rounded-lg hover:bg-gray-50"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Cancel
+        </button>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Input untuk Title */}
@@ -191,7 +223,7 @@ const UpdateGaleriPage = () => {
           />
         </div>
 
-        {/* Input untuk Images (File Upload) */}
+        {/* Input untuk Image (File Upload) */}
         <div className="space-y-2">
           <label className="flex items-center text-sm font-medium text-gray-700">
             <ImagePlus className="w-4 h-4 mr-2" />
@@ -208,7 +240,7 @@ const UpdateGaleriPage = () => {
                   <input
                     type="file"
                     id="file-upload"
-                    name="images"
+                    name="image"
                     className="sr-only"
                     onChange={handleFileChange}
                     accept="image/*"
@@ -224,7 +256,16 @@ const UpdateGaleriPage = () => {
               src=""
               className="mt-4 mx-auto max-h-full hidden"
               id="preview"
-            ></img>
+            />
+            {formData.image && (
+              <button
+                type="button"
+                onClick={handleClearImage}
+                className="mt-2 px-3 py-1 text-sm text-red-600 border border-red-600 rounded-md hover:bg-red-50"
+              >
+                Clear Image
+              </button>
+            )}
           </div>
         </div>
 
@@ -242,4 +283,4 @@ const UpdateGaleriPage = () => {
   );
 };
 
-export default UpdateGaleriPage;
+export default UpdateGaleriPage
